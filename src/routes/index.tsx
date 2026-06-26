@@ -1,32 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { motion, useScroll, useTransform, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import {
   Menu,
   X,
   ArrowRight,
-  Globe,
-  Sparkles,
-  Megaphone,
   Check,
   Plus,
-  Play,
   Mail,
   MessageCircle,
   Instagram,
   Linkedin,
   ChevronDown,
-  Quote,
 } from "lucide-react";
-
-import heroBg from "@/assets/hero-bg.jpg";
-import whyVisual from "@/assets/why-visual.jpg";
-import portfolio1 from "@/assets/portfolio-1.jpg";
-import portfolio2 from "@/assets/portfolio-2.jpg";
-import portfolio3 from "@/assets/portfolio-3.jpg";
-import video1 from "@/assets/video-1.jpg";
-import video2 from "@/assets/video-2.jpg";
-import video3 from "@/assets/video-3.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -60,7 +46,7 @@ function scrollToId(id: string) {
   if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-/* ---------- Reveal helper ---------- */
+/* ---------- Reveal ---------- */
 function Reveal({
   children,
   delay = 0,
@@ -72,10 +58,10 @@ function Reveal({
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.7, delay, ease: EASE }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.6, delay, ease: EASE }}
       className={className}
     >
       {children}
@@ -83,13 +69,80 @@ function Reveal({
   );
 }
 
-/* ---------- Eyebrow ---------- */
 function Eyebrow({ children }: { children: ReactNode }) {
   return (
     <span className="eyebrow">
       <span className="h-px w-8 bg-accent" />
       {children}
     </span>
+  );
+}
+
+/* ---------- Browser/Laptop CSS mockup ---------- */
+function BrowserMockup({ accent = false }: { accent?: boolean }) {
+  return (
+    <div className="relative w-full overflow-hidden rounded-[14px] border border-border bg-[#111114] shadow-[0_30px_80px_-30px_rgba(0,0,0,0.7)]">
+      {/* Title bar */}
+      <div className="flex items-center gap-2 border-b border-border bg-[#0E0E10] px-3.5 py-2.5">
+        <span className="h-2.5 w-2.5 rounded-full bg-[#3A3A3E]" />
+        <span className="h-2.5 w-2.5 rounded-full bg-[#3A3A3E]" />
+        <span className="h-2.5 w-2.5 rounded-full bg-[#3A3A3E]" />
+        <div className="ml-3 flex h-5 flex-1 items-center rounded-md bg-[#1A1A1D] px-2 text-[10px] text-muted">
+          brightsmile.in
+        </div>
+      </div>
+      {/* Site body */}
+      <div className="p-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-1.5">
+            <span className="h-2 w-2 rounded-full bg-accent" />
+            <span className="h-1.5 w-12 rounded-sm bg-text/85" />
+          </div>
+          <div className="flex gap-2">
+            <span className="h-1 w-7 rounded-sm bg-muted/40" />
+            <span className="h-1 w-7 rounded-sm bg-muted/40" />
+            <span className="h-1 w-7 rounded-sm bg-muted/40" />
+            <span className="h-3.5 w-12 rounded-full bg-accent" />
+          </div>
+        </div>
+
+        <div className="mt-4 grid grid-cols-5 gap-3">
+          <div className="col-span-3">
+            <div className="h-2 w-3/4 rounded-sm bg-text/80" />
+            <div className="mt-1.5 h-2 w-1/2 rounded-sm bg-text/80" />
+            <div className="mt-3 h-1.5 w-full rounded-sm bg-muted/30" />
+            <div className="mt-1 h-1.5 w-5/6 rounded-sm bg-muted/30" />
+            <div className="mt-1 h-1.5 w-3/4 rounded-sm bg-muted/30" />
+            <div className="mt-4 flex gap-2">
+              <span className="h-5 w-16 rounded-full bg-accent" />
+              <span className="h-5 w-16 rounded-full border border-border" />
+            </div>
+          </div>
+          <div className="col-span-2 aspect-[4/3] overflow-hidden rounded-md bg-[#1A1A1D]">
+            <div
+              className="h-full w-full"
+              style={{
+                background:
+                  "linear-gradient(135deg, rgba(242,169,59,0.25) 0%, rgba(242,169,59,0.04) 60%, transparent 100%)",
+              }}
+            />
+          </div>
+        </div>
+
+        <div className="mt-4 grid grid-cols-3 gap-2">
+          {[0, 1, 2].map((i) => (
+            <div
+              key={i}
+              className="rounded-md border border-border bg-[#15151A] p-2"
+            >
+              <div className={`h-1.5 w-8 rounded-sm ${accent && i === 1 ? "bg-accent" : "bg-text/70"}`} />
+              <div className="mt-1.5 h-1 w-full rounded-sm bg-muted/25" />
+              <div className="mt-1 h-1 w-2/3 rounded-sm bg-muted/25" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -135,7 +188,7 @@ function Navbar() {
           : "border-b border-transparent bg-transparent"
       }`}
     >
-      <nav className="container-x flex h-[72px] items-center justify-between">
+      <nav className="container-x flex h-[68px] items-center justify-between">
         <button
           onClick={() => scrollToId("hero")}
           className="font-display text-[22px] font-bold tracking-tight"
@@ -152,7 +205,7 @@ function Navbar() {
               <li key={link.id}>
                 <button
                   onClick={() => handleClick(link.id)}
-                  className={`group relative text-[15px] font-medium transition-colors ${
+                  className={`group relative text-[14px] font-medium transition-colors ${
                     isActive ? "text-accent" : "text-muted hover:text-text"
                   }`}
                 >
@@ -172,7 +225,6 @@ function Navbar() {
           <button
             onClick={() => scrollToId("contact")}
             className="hidden rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-bg transition hover:scale-[1.03] hover:bg-accent-hover sm:inline-flex"
-            style={{ boxShadow: "0 0 0 0 rgba(242,169,59,0)" }}
           >
             Let's Talk
           </button>
@@ -181,13 +233,7 @@ function Navbar() {
             className="grid h-11 w-11 place-items-center rounded-full border border-border text-text lg:hidden"
             aria-label="Toggle menu"
           >
-            <motion.span
-              animate={{ rotate: open ? 90 : 0 }}
-              transition={{ duration: 0.3, ease: EASE }}
-              className="grid place-items-center"
-            >
-              {open ? <X size={20} /> : <Menu size={20} />}
-            </motion.span>
+            {open ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </nav>
@@ -195,27 +241,27 @@ function Navbar() {
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: -16 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3, ease: EASE }}
-            className="absolute inset-x-0 top-full origin-top border-t border-border bg-bg/95 backdrop-blur-xl lg:hidden"
+            exit={{ opacity: 0, y: -16 }}
+            transition={{ duration: 0.25, ease: EASE }}
+            className="absolute inset-x-0 top-full border-t border-border bg-bg/95 backdrop-blur-xl lg:hidden"
           >
-            <ul className="container-x flex flex-col gap-2 py-8">
+            <ul className="container-x flex flex-col gap-2 py-6">
               {NAV_LINKS.map((link) => (
                 <li key={link.id}>
                   <button
                     onClick={() => handleClick(link.id)}
-                    className="block w-full py-3 text-center font-display text-2xl font-semibold text-text"
+                    className="block w-full py-3 text-center font-display text-xl font-semibold text-text"
                   >
                     {link.label}
                   </button>
                 </li>
               ))}
-              <li className="pt-4">
+              <li className="pt-2">
                 <button
                   onClick={() => handleClick("contact")}
-                  className="block w-full rounded-full bg-accent py-4 text-center text-base font-semibold text-bg"
+                  className="block w-full rounded-full bg-accent py-3.5 text-center text-base font-semibold text-bg"
                 >
                   Let's Talk
                 </button>
@@ -229,166 +275,270 @@ function Navbar() {
 }
 
 /* ---------- Hero ---------- */
-function Hero() {
-  const ref = useRef<HTMLElement>(null);
-  const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 800], [0, 240]);
+const TRUST_BADGES = [
+  "SEO Ready",
+  "Mobile Responsive",
+  "Fast Loading",
+  "WhatsApp Integrated",
+  "AI Powered",
+];
 
+function Hero() {
   return (
     <section
       id="hero"
-      ref={ref}
-      className="relative flex min-h-[100svh] items-center justify-center overflow-hidden"
-      style={{ minHeight: "max(600px, 100svh)" }}
+      className="relative overflow-hidden bg-bg pt-32 pb-20 md:pt-36 md:pb-24"
     >
-      <motion.div style={{ y }} className="absolute inset-0 -z-10">
-        <img
-          src={heroBg}
-          alt=""
-          className="h-full w-full object-cover"
-          width={1920}
-          height={1280}
-        />
-      </motion.div>
+      {/* subtle accent halo */}
       <div
         aria-hidden
-        className="absolute inset-0 -z-10"
-        style={{
-          background:
-            "linear-gradient(to bottom, rgba(10,10,11,0.4) 0%, rgba(10,10,11,0.7) 50%, rgba(10,10,11,0.98) 100%)",
-        }}
+        className="pointer-events-none absolute -left-40 top-20 h-[520px] w-[520px] rounded-full opacity-[0.10] blur-3xl"
+        style={{ background: "radial-gradient(circle, #F2A93B 0%, transparent 70%)" }}
       />
+      <div aria-hidden className="absolute inset-0 grain-noise opacity-[0.4]" />
 
-      <div className="container-x relative z-10 mx-auto max-w-[820px] text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: EASE }}
-          className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-4 py-2 text-xs font-medium text-muted backdrop-blur"
-        >
-          <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-          Trusted by Dental Clinics & Coaching Institutes
-        </motion.div>
-
-        <motion.h1
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.15, ease: EASE }}
-          className="font-display font-bold text-text"
-          style={{ fontSize: "clamp(36px, 6vw, 64px)", lineHeight: 1.08 }}
-        >
-          We Build <span className="text-accent">Websites</span>,{" "}
-          <span className="text-accent">AI Video Ads</span> & Digital{" "}
-          <span className="text-accent">Growth</span> — For Businesses That Want to Stand Out.
-        </motion.h1>
-
-        <motion.p
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.3, ease: EASE }}
-          className="mx-auto mt-6 max-w-[600px] text-[18px] leading-relaxed text-muted"
-        >
-          HK Media is a one-stop digital partner — we design your website, produce
-          scroll-stopping AI-generated ads, and run your social media, so you can focus on
-          running your business.
-        </motion.p>
-
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.45, ease: EASE }}
-          className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4"
-        >
-          <button
-            onClick={() => scrollToId("portfolio")}
-            className="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 text-[15px] font-semibold text-bg transition duration-200 hover:scale-[1.03] hover:bg-accent-hover sm:w-auto"
-            style={{ boxShadow: "0 8px 24px -8px rgba(242,169,59,0.35)" }}
+      <div className="container-x relative grid items-center gap-14 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
+        {/* LEFT — copy */}
+        <div>
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: EASE }}
+            className="inline-flex items-center gap-2 rounded-full border border-border bg-surface/60 px-3.5 py-1.5 text-[12px] font-medium text-muted backdrop-blur"
           >
-            View Our Work
-            <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
-          </button>
-          <button
-            onClick={() => scrollToId("contact")}
-            className="inline-flex w-full items-center justify-center rounded-full border border-muted/60 bg-transparent px-7 py-3.5 text-[15px] font-semibold text-text transition duration-200 hover:scale-[1.03] hover:border-accent sm:w-auto"
+            <span className="h-1.5 w-1.5 rounded-full bg-accent" />
+            Trusted by Dental Clinics & Coaching Institutes
+          </motion.div>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1, ease: EASE }}
+            className="mt-5 font-display font-bold text-text"
+            style={{ fontSize: "clamp(30px, 4.4vw, 50px)", lineHeight: 1.08 }}
           >
-            Get in Touch
-          </button>
+            Websites, <span className="text-accent">AI Video Ads</span> &
+            Marketing — Built for Local Businesses That Want to Stand Out.
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.22, ease: EASE }}
+            className="mt-4 font-display text-[17px] italic text-accent/90"
+          >
+            From First Impression to First Customer.
+          </motion.p>
+
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3, ease: EASE }}
+            className="mt-5 max-w-xl text-[16px] leading-relaxed text-muted"
+          >
+            HK Media is a one-stop digital partner — we design your website,
+            produce scroll-stopping AI ads, and run your social media, so you can
+            focus on running your business.
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4, ease: EASE }}
+            className="mt-8 flex flex-col gap-3 sm:flex-row sm:gap-3"
+          >
+            <button
+              onClick={() => scrollToId("portfolio")}
+              className="group inline-flex items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 text-[14px] font-semibold text-bg transition hover:scale-[1.02] hover:bg-accent-hover"
+              style={{ boxShadow: "0 10px 24px -10px rgba(242,169,59,0.45)" }}
+            >
+              View Our Work
+              <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+            </button>
+            <button
+              onClick={() => scrollToId("contact")}
+              className="inline-flex items-center justify-center rounded-full border border-muted/50 px-6 py-3 text-[14px] font-semibold text-text transition hover:border-accent hover:text-accent"
+            >
+              Get in Touch
+            </button>
+          </motion.div>
+
+          {/* Trust badge strip */}
+          <motion.ul
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, delay: 0.55, ease: EASE }}
+            className="mt-8 flex flex-wrap gap-x-5 gap-y-2 text-[12.5px] text-muted"
+          >
+            {TRUST_BADGES.map((b) => (
+              <li key={b} className="inline-flex items-center gap-1.5">
+                <span className="text-accent">✓</span>
+                {b}
+              </li>
+            ))}
+          </motion.ul>
+        </div>
+
+        {/* RIGHT — CSS browser mockup + floating cards */}
+        <motion.div
+          initial={{ opacity: 0, y: 24, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.25, ease: EASE }}
+          className="relative mx-auto w-full max-w-[520px]"
+        >
+          <div className="float-a">
+            <BrowserMockup accent />
+          </div>
+
+          {/* New Lead card */}
+          <div className="float-b absolute -left-4 top-12 hidden rounded-xl border border-border bg-surface/85 px-3.5 py-2.5 shadow-[0_18px_40px_-18px_rgba(0,0,0,0.6)] backdrop-blur sm:block">
+            <div className="flex items-center gap-2.5">
+              <span className="grid h-7 w-7 place-items-center rounded-full bg-accent/15 text-accent font-bold text-[13px]">
+                ↑
+              </span>
+              <div>
+                <div className="text-[11px] uppercase tracking-wider text-muted">Inbound</div>
+                <div className="font-display text-[13px] font-semibold text-text">New Lead!</div>
+              </div>
+            </div>
+          </div>
+
+          {/* 5-star Review card */}
+          <div className="float-c absolute -right-3 top-4 rounded-xl border border-border bg-surface/85 px-3.5 py-2.5 shadow-[0_18px_40px_-18px_rgba(0,0,0,0.6)] backdrop-blur">
+            <div className="flex items-center gap-1 text-accent">
+              {[0,1,2,3,4].map(i=>(
+                <svg key={i} width="11" height="11" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.9L22 10l-5.5 4.8L18 22l-6-3.4L6 22l1.5-7.2L2 10l7.1-1.1z"/></svg>
+              ))}
+            </div>
+            <div className="mt-1 font-display text-[12px] font-semibold text-text">5-Star Review</div>
+          </div>
+
+          {/* Site live card */}
+          <div className="float-b absolute -bottom-4 left-6 hidden rounded-xl border border-border bg-surface/85 px-3.5 py-2.5 shadow-[0_18px_40px_-18px_rgba(0,0,0,0.6)] backdrop-blur sm:block">
+            <div className="flex items-center gap-2.5">
+              <span className="relative grid h-7 w-7 place-items-center rounded-full bg-success/15 text-success">
+                <span className="h-2 w-2 rounded-full bg-success" />
+                <span className="absolute inset-0 animate-ping rounded-full bg-success/30" />
+              </span>
+              <div>
+                <div className="text-[11px] uppercase tracking-wider text-muted">Deployed</div>
+                <div className="font-display text-[13px] font-semibold text-text">Site Live!</div>
+              </div>
+            </div>
+          </div>
         </motion.div>
       </div>
 
       <div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-muted"
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 text-muted"
         style={{ animation: "scroll-bounce 2s ease-in-out infinite" }}
       >
-        <ChevronDown size={22} />
+        <ChevronDown size={20} />
       </div>
     </section>
   );
 }
 
-/* ---------- Services ---------- */
+/* ---------- Custom Service Icons (SVG) ---------- */
+function IconWeb() {
+  return (
+    <svg viewBox="0 0 48 48" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="6" y="9" width="36" height="26" rx="3" />
+      <path d="M6 16h36" />
+      <circle cx="11" cy="12.5" r="1" fill="currentColor" />
+      <circle cx="14.5" cy="12.5" r="1" fill="currentColor" />
+      <circle cx="18" cy="12.5" r="1" fill="currentColor" />
+      <path d="M12 22h12M12 26h18M12 30h9" />
+      <path d="M18 39h12" />
+      <path d="M24 35v4" />
+    </svg>
+  );
+}
+function IconPlay() {
+  return (
+    <svg viewBox="0 0 48 48" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="7" y="11" width="34" height="22" rx="3" />
+      <path d="M21 18l9 6-9 6z" fill="currentColor" stroke="none" />
+      <path d="M14 39h20" />
+      <path d="M3 16l4-2M45 16l-4-2" />
+    </svg>
+  );
+}
+function IconMegaphone() {
+  return (
+    <svg viewBox="0 0 48 48" width="32" height="32" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M10 20h6l18-8v24l-18-8h-6a4 4 0 0 1 0-8z" />
+      <path d="M16 28v8a3 3 0 0 0 6 0v-5" />
+      <path d="M40 18c2 1.5 2 9.5 0 11" />
+    </svg>
+  );
+}
+
 const SERVICES = [
   {
-    icon: Globe,
-    title: "Website Development",
-    desc: "Custom-built, fast-loading websites designed to convert visitors into customers. Hosting, SEO & ad setup included — no surprise costs.",
+    Icon: IconWeb,
+    title: "Websites That Generate Leads",
+    desc: "Custom-built, fast-loading sites engineered to convert visitors into booked appointments and enquiries — hosting, SEO & ad setup included.",
   },
   {
-    icon: Sparkles,
-    title: "AI Generated Video Ads",
-    desc: "Cinematic, scroll-stopping video ads produced with cutting-edge AI tools. Half the cost, twice the iteration speed of a traditional shoot.",
+    Icon: IconPlay,
+    title: "AI Videos That Stop The Scroll",
+    desc: "Cinematic AI-generated video ads built to grab attention in the first 2 seconds. Half the cost, twice the iteration speed of a traditional shoot.",
   },
   {
-    icon: Megaphone,
-    title: "Digital Marketing",
-    desc: "End-to-end social media management, content calendars, and paid promotions on Meta & Google — built to drive real foot-traffic and leads.",
+    Icon: IconMegaphone,
+    title: "Marketing That Brings Customers",
+    desc: "End-to-end social media, content calendars, and Meta/Google ad campaigns built to drive real foot-traffic, calls, and leads to your business.",
   },
 ];
 
 function Services() {
   return (
-    <section id="services" className="section-y bg-bg-alt">
-      <div className="container-x">
+    <section id="services" className="section-y relative bg-bg-alt">
+      <div aria-hidden className="absolute inset-0 grain-noise opacity-[0.5]" />
+      <div className="container-x relative">
         <Reveal>
           <div className="mx-auto max-w-2xl text-center">
             <Eyebrow>What We Do</Eyebrow>
             <h2
               className="mt-4 font-display font-bold text-text"
-              style={{ fontSize: "clamp(28px, 4vw, 40px)" }}
+              style={{ fontSize: "clamp(26px, 3.4vw, 36px)" }}
             >
-              Our Services
+              Three services. One growth engine.
             </h2>
-            <p className="mt-4 text-[17px] text-muted">
-              Three deeply-connected services under one roof — so your website, ads, and
-              social presence finally speak the same language.
+            <p className="mt-4 text-[16px] text-muted">
+              Your website, ads, and social presence — finally speaking the same language.
             </p>
           </div>
         </Reveal>
 
-        <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {SERVICES.map((s, i) => (
-            <Reveal key={s.title} delay={i * 0.1}>
-              <article className="group h-full rounded-[20px] border border-border bg-surface p-10 transition duration-300 hover:-translate-y-1.5 hover:border-accent/30 hover:shadow-[0_8px_24px_rgba(0,0,0,0.4)]">
-                <div
-                  className="grid h-14 w-14 place-items-center rounded-2xl text-accent"
-                  style={{ background: "rgba(242,169,59,0.12)" }}
-                >
-                  <s.icon size={26} />
+            <Reveal key={s.title} delay={i * 0.08}>
+              <article className="glow-card group relative h-full overflow-hidden rounded-[18px] border border-border bg-surface p-8">
+                <div aria-hidden className="absolute inset-0 grain-noise opacity-[0.6]" />
+                <div className="relative">
+                  <div
+                    className="grid h-14 w-14 place-items-center rounded-[14px] text-accent"
+                    style={{ background: "rgba(242,169,59,0.10)", border: "1px solid rgba(242,169,59,0.18)" }}
+                  >
+                    <s.Icon />
+                  </div>
+                  <h3 className="mt-7 font-display text-[20px] font-semibold leading-snug text-text">
+                    {s.title}
+                  </h3>
+                  <p className="mt-3 text-[14.5px] leading-relaxed text-muted">{s.desc}</p>
+                  <button
+                    onClick={() => scrollToId("contact")}
+                    className="mt-7 inline-flex items-center gap-1.5 text-[13.5px] font-semibold text-accent"
+                  >
+                    Learn more
+                    <ArrowRight
+                      size={14}
+                      className="transition-transform duration-300 group-hover:translate-x-1"
+                    />
+                  </button>
                 </div>
-                <h3 className="mt-7 font-display text-[22px] font-semibold text-text">
-                  {s.title}
-                </h3>
-                <p className="mt-3 text-[15px] leading-relaxed text-muted">{s.desc}</p>
-                <button
-                  onClick={() => scrollToId("contact")}
-                  className="mt-8 inline-flex items-center gap-1.5 text-sm font-semibold text-accent"
-                >
-                  Learn more
-                  <ArrowRight
-                    size={15}
-                    className="transition-transform duration-300 group-hover:translate-x-1"
-                  />
-                </button>
               </article>
             </Reveal>
           ))}
@@ -464,74 +614,151 @@ function Counter({ value, suffix }: { value: number; suffix: string }) {
   );
 }
 
+/* CSS-built laptop frame */
+function LaptopMockup() {
+  return (
+    <div className="w-full">
+      {/* Screen */}
+      <div className="relative rounded-t-[14px] border border-border border-b-0 bg-[#0E0E10] p-2.5 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.7)]">
+        <div className="overflow-hidden rounded-[8px] border border-border bg-[#111114]">
+          {/* mini site */}
+          <div className="flex items-center gap-1.5 border-b border-border bg-[#0E0E10] px-2.5 py-1.5">
+            <span className="h-2 w-2 rounded-full bg-[#3A3A3E]" />
+            <span className="h-2 w-2 rounded-full bg-[#3A3A3E]" />
+            <span className="h-2 w-2 rounded-full bg-[#3A3A3E]" />
+            <div className="ml-2 h-3.5 flex-1 rounded-sm bg-[#1A1A1D]" />
+          </div>
+          <div className="p-3.5">
+            <div className="flex items-center justify-between">
+              <span className="h-2 w-14 rounded-sm bg-accent" />
+              <div className="flex gap-1.5">
+                <span className="h-1.5 w-6 rounded-sm bg-muted/40" />
+                <span className="h-1.5 w-6 rounded-sm bg-muted/40" />
+                <span className="h-3 w-10 rounded-full bg-accent" />
+              </div>
+            </div>
+            <div className="mt-4 grid grid-cols-5 gap-2.5">
+              <div className="col-span-3 space-y-1.5">
+                <div className="h-2.5 w-3/4 rounded-sm bg-text/85" />
+                <div className="h-2.5 w-1/2 rounded-sm bg-text/85" />
+                <div className="mt-2 h-1.5 w-full rounded-sm bg-muted/30" />
+                <div className="h-1.5 w-5/6 rounded-sm bg-muted/30" />
+              </div>
+              <div
+                className="col-span-2 aspect-square rounded-md"
+                style={{
+                  background:
+                    "linear-gradient(135deg, rgba(242,169,59,0.3) 0%, rgba(242,169,59,0.05) 70%, transparent 100%)",
+                }}
+              />
+            </div>
+            <div className="mt-4 grid grid-cols-3 gap-2">
+              {[0, 1, 2].map((i) => (
+                <div key={i} className="rounded-md border border-border bg-[#15151A] p-2">
+                  <div className="h-1.5 w-6 rounded-sm bg-accent/80" />
+                  <div className="mt-1 h-1 w-full rounded-sm bg-muted/25" />
+                  <div className="mt-1 h-1 w-3/4 rounded-sm bg-muted/25" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* Base */}
+      <div className="relative">
+        <div className="h-2 rounded-b-[14px] bg-[#1A1A1D] shadow-[0_2px_0_0_#2A2A2E_inset]" />
+        <div className="mx-auto h-1.5 w-1/3 rounded-b-md bg-[#0E0E10]" />
+      </div>
+    </div>
+  );
+}
+
 function WhyUs() {
   return (
     <section id="why-us" className="section-y bg-bg">
       <div className="container-x">
-        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
+        <div className="grid items-start gap-12 lg:grid-cols-[1fr_1.05fr] lg:gap-14">
+          {/* LEFT: CSS laptop with floating metrics */}
           <div className="order-2 lg:order-1">
-            <div className="lg:sticky lg:top-28">
+            <div className="relative mx-auto w-full max-w-[520px] lg:sticky lg:top-28">
               <Reveal>
-                <div className="overflow-hidden rounded-[24px] border border-border bg-surface">
-                  <img
-                    src={whyVisual}
-                    alt="HK Media work — website mockups and analytics dashboards"
-                    loading="lazy"
-                    width={1024}
-                    height={1280}
-                    className="aspect-[4/5] w-full object-cover"
-                  />
+                <div className="float-a">
+                  <LaptopMockup />
                 </div>
               </Reveal>
+
+              {/* Floating metric: Leads */}
+              <div className="float-b absolute -left-3 top-8 rounded-xl border border-border bg-surface/85 p-3 shadow-[0_18px_40px_-18px_rgba(0,0,0,0.6)] backdrop-blur">
+                <div className="text-[10.5px] uppercase tracking-wider text-muted">Leads</div>
+                <div className="mt-0.5 flex items-baseline gap-1">
+                  <span className="font-display text-[20px] font-bold text-accent">3x</span>
+                  <span className="text-[11px] text-muted">↑ MoM</span>
+                </div>
+              </div>
+
+              {/* Floating metric: Pagespeed */}
+              <div className="float-c absolute -right-3 top-1/3 rounded-xl border border-border bg-surface/85 p-3 shadow-[0_18px_40px_-18px_rgba(0,0,0,0.6)] backdrop-blur">
+                <div className="text-[10.5px] uppercase tracking-wider text-muted">Site Speed</div>
+                <div className="mt-0.5 flex items-baseline gap-1">
+                  <span className="font-display text-[20px] font-bold text-accent">98</span>
+                  <span className="text-[11px] text-muted">/100</span>
+                </div>
+              </div>
+
+              {/* Floating metric: Retention */}
+              <div className="float-b absolute -bottom-2 left-10 hidden rounded-xl border border-border bg-surface/85 p-3 shadow-[0_18px_40px_-18px_rgba(0,0,0,0.6)] backdrop-blur sm:block">
+                <div className="text-[10.5px] uppercase tracking-wider text-muted">Retention</div>
+                <div className="mt-0.5 font-display text-[18px] font-bold text-accent">98%</div>
+              </div>
             </div>
           </div>
 
+          {/* RIGHT: bullets */}
           <div className="order-1 lg:order-2">
             <Reveal>
               <Eyebrow>Why Us</Eyebrow>
               <h2
                 className="mt-4 font-display font-bold text-text"
-                style={{ fontSize: "clamp(28px, 4vw, 40px)" }}
+                style={{ fontSize: "clamp(26px, 3.4vw, 36px)" }}
               >
                 Why Businesses Choose HK Media
               </h2>
-              <p className="mt-4 max-w-lg text-[17px] text-muted">
-                We're not the biggest agency in town. We're the one that actually picks up
-                the phone, ships on time, and treats your business like our own.
+              <p className="mt-4 max-w-lg text-[16px] text-muted">
+                We're not the biggest agency in town. We're the one that actually
+                picks up the phone, ships on time, and treats your business like
+                our own.
               </p>
             </Reveal>
 
-            <ul className="mt-10 divide-y divide-border">
+            <ul className="mt-8 divide-y divide-border">
               {USPS.map((u, i) => (
-                <Reveal key={u.title} delay={i * 0.08}>
-                  <li className="flex gap-4 py-6">
+                <Reveal key={u.title} delay={i * 0.06}>
+                  <li className="flex gap-4 py-5">
                     <div
-                      className="mt-1 grid h-9 w-9 shrink-0 place-items-center rounded-full border border-accent/40 text-accent"
+                      className="mt-1 grid h-8 w-8 shrink-0 place-items-center rounded-full border border-accent/40 text-accent"
                       style={{ background: "rgba(242,169,59,0.08)" }}
                     >
-                      <Check size={16} strokeWidth={2.5} />
+                      <Check size={14} strokeWidth={2.5} />
                     </div>
                     <div className="min-w-0">
-                      <h3 className="font-display text-[19px] font-semibold text-text">
+                      <h3 className="font-display text-[17px] font-semibold text-text">
                         {u.title}
                       </h3>
-                      <p className="mt-1.5 text-[15px] leading-relaxed text-muted">
-                        {u.desc}
-                      </p>
+                      <p className="mt-1 text-[14.5px] leading-relaxed text-muted">{u.desc}</p>
                     </div>
                   </li>
                 </Reveal>
               ))}
             </ul>
 
-            <Reveal delay={0.2}>
-              <div className="mt-10 grid grid-cols-3 gap-4 rounded-2xl border border-border bg-surface p-6">
+            <Reveal delay={0.15}>
+              <div className="mt-8 grid grid-cols-3 gap-3 rounded-2xl border border-border bg-surface p-5">
                 {STATS.map((s) => (
                   <div key={s.label} className="text-center">
-                    <div className="font-display text-[28px] font-bold text-accent sm:text-[34px]">
+                    <div className="font-display text-[24px] font-bold text-accent sm:text-[30px]">
                       <Counter value={s.value} suffix={s.suffix} />
                     </div>
-                    <div className="mt-1 text-[12px] uppercase tracking-wider text-muted">
+                    <div className="mt-1 text-[11px] uppercase tracking-wider text-muted">
                       {s.label}
                     </div>
                   </div>
@@ -545,22 +772,139 @@ function WhyUs() {
   );
 }
 
-/* ---------- Portfolio ---------- */
-const WEBSITES = [
-  { title: "Bright Smile Dental", tag: "Dental Clinic Website", img: portfolio1 },
-  { title: "Apex Coaching Academy", tag: "Coaching Institute", img: portfolio2 },
-  { title: "Ortholine Specialists", tag: "Orthodontics Practice", img: portfolio3 },
+/* ---------- Portfolio (CSS mockup cards) ---------- */
+type Project = {
+  title: string;
+  industry: string;
+  goal: string;
+  variant: "dental" | "coaching" | "ortho" | "video-dental" | "video-coaching" | "video-local";
+};
+
+const WEB_PROJECTS: Project[] = [
+  {
+    title: "Bright Smile Dental",
+    industry: "Dental Clinic",
+    goal: "Drive new patient bookings via online enquiry form.",
+    variant: "dental",
+  },
+  {
+    title: "Apex Coaching Academy",
+    industry: "Coaching Institute",
+    goal: "Convert visitors into demo class registrations.",
+    variant: "coaching",
+  },
+  {
+    title: "Ortholine Specialists",
+    industry: "Orthodontics",
+    goal: "Showcase specialist services & generate consults.",
+    variant: "ortho",
+  },
 ];
-const VIDEOS = [
-  { title: "Smile Reveal Campaign", tag: "Dental Clinic Ad", img: video1 },
-  { title: "Topper Stories", tag: "Coaching Institute Ad", img: video2 },
-  { title: "Grand Opening Teaser", tag: "Local Business Ad", img: video3 },
+const VIDEO_PROJECTS: Project[] = [
+  {
+    title: "Smile Reveal Campaign",
+    industry: "Dental Clinic",
+    goal: "Drive teeth-whitening package bookings via Instagram.",
+    variant: "video-dental",
+  },
+  {
+    title: "Topper Stories",
+    industry: "Coaching Institute",
+    goal: "Build trust through authentic student success ads.",
+    variant: "video-coaching",
+  },
+  {
+    title: "Grand Opening Teaser",
+    industry: "Local Business",
+    goal: "Generate buzz around storefront launch in 48 hours.",
+    variant: "video-local",
+  },
 ];
+
+function ProjectVisual({ variant }: { variant: Project["variant"] }) {
+  // Browser-style mock for websites, video frame mock for videos
+  const isVideo = variant.startsWith("video");
+  if (isVideo) {
+    return (
+      <div className="relative h-full w-full overflow-hidden bg-[#0E0E10]">
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(135deg, rgba(242,169,59,0.22), rgba(242,169,59,0.04) 55%, transparent 100%)",
+          }}
+        />
+        {/* phone frame */}
+        <div className="absolute left-1/2 top-1/2 h-[78%] w-[34%] -translate-x-1/2 -translate-y-1/2 rounded-[18px] border-2 border-border bg-[#15151A] p-1.5 shadow-[0_24px_60px_-24px_rgba(0,0,0,0.8)]">
+          <div className="relative h-full w-full overflow-hidden rounded-[12px]"
+               style={{ background: "linear-gradient(160deg, #1A1A1D 0%, #0E0E10 100%)" }}>
+            <div
+              className="absolute inset-0"
+              style={{
+                background:
+                  "radial-gradient(circle at 60% 40%, rgba(242,169,59,0.4), transparent 55%)",
+              }}
+            />
+            <div className="absolute left-1/2 top-1/2 grid h-11 w-11 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-accent text-bg shadow-[0_8px_20px_rgba(242,169,59,0.5)]">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+            </div>
+            <div className="absolute inset-x-2 bottom-2 space-y-1">
+              <div className="h-1 w-1/2 rounded-sm bg-text/70" />
+              <div className="h-1 w-2/3 rounded-sm bg-muted/40" />
+            </div>
+          </div>
+        </div>
+        {/* timecode */}
+        <div className="absolute right-3 top-3 rounded bg-bg/60 px-1.5 py-0.5 font-mono text-[10px] text-accent backdrop-blur">
+          00:15
+        </div>
+      </div>
+    );
+  }
+
+  // Website variants — same shell, different accent palette via gradient
+  const gradientByVariant: Record<string, string> = {
+    dental: "linear-gradient(135deg, rgba(242,169,59,0.22), transparent 60%)",
+    coaching: "linear-gradient(135deg, rgba(242,169,59,0.32), transparent 60%)",
+    ortho: "linear-gradient(135deg, rgba(242,169,59,0.16), transparent 60%)",
+  };
+  return (
+    <div className="relative h-full w-full overflow-hidden bg-[#0E0E10]">
+      <div className="absolute inset-0" style={{ background: gradientByVariant[variant] }} />
+      <div className="absolute inset-4 overflow-hidden rounded-[10px] border border-border bg-[#111114]">
+        <div className="flex items-center gap-1.5 border-b border-border bg-[#0E0E10] px-2.5 py-1.5">
+          <span className="h-2 w-2 rounded-full bg-[#3A3A3E]" />
+          <span className="h-2 w-2 rounded-full bg-[#3A3A3E]" />
+          <span className="h-2 w-2 rounded-full bg-[#3A3A3E]" />
+          <div className="ml-2 h-3 flex-1 rounded-sm bg-[#1A1A1D]" />
+        </div>
+        <div className="p-3">
+          <div className="flex justify-between">
+            <span className="h-2 w-12 rounded-sm bg-accent" />
+            <div className="flex gap-1.5">
+              <span className="h-1.5 w-5 rounded-sm bg-muted/40" />
+              <span className="h-1.5 w-5 rounded-sm bg-muted/40" />
+              <span className="h-3 w-9 rounded-full bg-accent" />
+            </div>
+          </div>
+          <div className="mt-3 space-y-1.5">
+            <div className="h-2.5 w-3/4 rounded-sm bg-text/80" />
+            <div className="h-2.5 w-1/2 rounded-sm bg-text/80" />
+          </div>
+          <div className="mt-3 grid grid-cols-3 gap-1.5">
+            {[0,1,2].map(i=>(
+              <div key={i} className="aspect-square rounded-sm bg-[#15151A] border border-border" />
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function Portfolio() {
   const [tab, setTab] = useState<"web" | "video">("web");
-  const [modal, setModal] = useState<{ title: string; img: string; tag: string } | null>(null);
-  const items = tab === "web" ? WEBSITES : VIDEOS;
+  const items = tab === "web" ? WEB_PROJECTS : VIDEO_PROJECTS;
 
   return (
     <section id="portfolio" className="section-y bg-bg-alt">
@@ -570,15 +914,15 @@ function Portfolio() {
             <Eyebrow>Our Work</Eyebrow>
             <h2
               className="mt-4 font-display font-bold text-text"
-              style={{ fontSize: "clamp(28px, 4vw, 40px)" }}
+              style={{ fontSize: "clamp(26px, 3.4vw, 36px)" }}
             >
               Recent Projects
             </h2>
           </div>
         </Reveal>
 
-        <Reveal delay={0.1}>
-          <div className="mx-auto mt-10 inline-flex w-full max-w-xs items-center rounded-full border border-border bg-surface p-1">
+        <Reveal delay={0.08}>
+          <div className="mx-auto mt-8 inline-flex w-full max-w-xs items-center rounded-full border border-border bg-surface p-1">
             {(["web", "video"] as const).map((t) => (
               <button
                 key={t}
@@ -600,145 +944,91 @@ function Portfolio() {
           </div>
         </Reveal>
 
-        <div className="mt-12 grid place-items-center">
+        <div className="mt-10 grid place-items-center">
           <AnimatePresence mode="wait">
             <motion.div
               key={tab}
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -16 }}
-              transition={{ duration: 0.35, ease: EASE }}
-              className="grid w-full gap-6 md:grid-cols-2 lg:grid-cols-3"
+              exit={{ opacity: 0, y: -14 }}
+              transition={{ duration: 0.3, ease: EASE }}
+              className="grid w-full gap-5 md:grid-cols-2 lg:grid-cols-3"
             >
               {items.map((p, i) => (
-                <motion.button
+                <motion.article
                   key={p.title}
-                  onClick={() => setModal(p)}
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: i * 0.08, ease: EASE }}
-                  className="group relative block overflow-hidden rounded-[16px] border border-border bg-surface text-left"
+                  transition={{ duration: 0.5, delay: i * 0.07, ease: EASE }}
+                  className="glow-card group flex h-full flex-col overflow-hidden rounded-[16px] border border-border bg-surface"
                 >
-                  <div className="relative aspect-[16/10] overflow-hidden">
-                    <img
-                      src={p.img}
-                      alt={p.title}
-                      loading="lazy"
-                      width={1280}
-                      height={800}
-                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                    {tab === "video" && (
-                      <div className="absolute inset-0 grid place-items-center">
-                        <div className="grid h-16 w-16 place-items-center rounded-full bg-bg/70 text-accent backdrop-blur transition group-hover:scale-110">
-                          <Play size={22} fill="currentColor" />
-                        </div>
-                      </div>
-                    )}
-                    <div
-                      className="pointer-events-none absolute inset-x-0 bottom-0 hidden translate-y-2 p-5 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 md:block"
-                      style={{
-                        background:
-                          "linear-gradient(to top, rgba(10,10,11,0.95), rgba(10,10,11,0))",
-                      }}
-                    >
-                      <div className="text-xs uppercase tracking-wider text-accent">
-                        {p.tag}
-                      </div>
-                      <div className="mt-1 font-display text-lg font-semibold text-text">
-                        {p.title}
-                      </div>
-                    </div>
+                  <div className="relative aspect-[16/10] overflow-hidden border-b border-border">
+                    <ProjectVisual variant={p.variant} />
                   </div>
-                  <div className="p-5 md:hidden">
-                    <div className="text-xs uppercase tracking-wider text-accent">
-                      {p.tag}
+                  <div className="flex flex-1 flex-col p-5">
+                    <div className="inline-flex w-fit items-center rounded-full border border-accent/40 bg-accent/10 px-2.5 py-0.5 text-[11px] font-medium uppercase tracking-wider text-accent">
+                      {p.industry}
                     </div>
-                    <div className="mt-1 font-display text-lg font-semibold text-text">
+                    <h3 className="mt-3 font-display text-[17px] font-semibold text-text">
                       {p.title}
-                    </div>
+                    </h3>
+                    <p className="mt-1.5 text-[13.5px] leading-relaxed text-muted">
+                      {p.goal}
+                    </p>
+                    <button
+                      onClick={() => scrollToId("contact")}
+                      className="mt-5 inline-flex items-center gap-1.5 self-start text-[13px] font-semibold text-accent"
+                    >
+                      View Live
+                      <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+                    </button>
                   </div>
-                </motion.button>
+                </motion.article>
               ))}
             </motion.div>
           </AnimatePresence>
         </div>
       </div>
-
-      <AnimatePresence>
-        {modal && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-[100] grid place-items-center bg-bg/85 p-4 backdrop-blur"
-            onClick={() => setModal(null)}
-          >
-            <motion.div
-              initial={{ scale: 0.96, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.96, opacity: 0 }}
-              transition={{ duration: 0.3, ease: EASE }}
-              onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-4xl overflow-hidden rounded-[20px] border border-border bg-surface"
-            >
-              <button
-                onClick={() => setModal(null)}
-                className="absolute right-4 top-4 z-10 grid h-10 w-10 place-items-center rounded-full bg-bg/80 text-text backdrop-blur"
-                aria-label="Close"
-              >
-                <X size={18} />
-              </button>
-              <img
-                src={modal.img}
-                alt={modal.title}
-                className="aspect-[16/10] w-full object-cover"
-              />
-              <div className="p-6 sm:p-8">
-                <div className="text-xs uppercase tracking-wider text-accent">{modal.tag}</div>
-                <h3 className="mt-2 font-display text-2xl font-bold text-text">
-                  {modal.title}
-                </h3>
-                <p className="mt-3 text-[15px] leading-relaxed text-muted">
-                  A custom build for a client in the {modal.tag.toLowerCase()} space — delivered
-                  with hosting, SEO setup, and a launch campaign. Measurable lift in inbound
-                  leads within the first month.
-                </p>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </section>
   );
 }
 
-/* ---------- Testimonials ---------- */
+/* ---------- Testimonials (Google-review style grid) ---------- */
 const TESTIMONIALS = [
   {
-    quote:
-      "HK Media rebuilt our clinic's website and ran our launch ads in under two weeks. We doubled our weekly appointment requests within a month. Genuinely impressed.",
     name: "Dr. Anjali Mehta",
-    role: "Founder, Bright Smile Dental",
+    role: "Founder",
+    company: "Bright Smile Dental",
+    quote:
+      "HK Media rebuilt our clinic's site and ran our launch ads in under two weeks. Weekly appointment requests doubled in a month.",
   },
   {
-    quote:
-      "Their AI video ads are the reason our admissions inquiries went from 5 a week to 30+. Plus they actually pick up the phone — which is rare these days.",
     name: "Rohit Sharma",
-    role: "Director, Apex Coaching Academy",
+    role: "Director",
+    company: "Apex Coaching Academy",
+    quote:
+      "Their AI video ads took our admission enquiries from 5 a week to 30+. Plus, they actually pick up the phone — rare these days.",
+  },
+  {
+    name: "Dr. Karan Verma",
+    role: "Principal Dentist",
+    company: "Ortholine Specialists",
+    quote:
+      "Honest pricing, fast turnaround, and no jargon. Our new site has been a lead-generation machine since day one.",
   },
 ];
 
-function Testimonials() {
-  const [i, setI] = useState(0);
-  useEffect(() => {
-    if (TESTIMONIALS.length < 2) return;
-    const id = setInterval(() => setI((x) => (x + 1) % TESTIMONIALS.length), 7000);
-    return () => clearInterval(id);
-  }, []);
-  const t = TESTIMONIALS[i];
+function Stars() {
+  return (
+    <div className="flex items-center gap-0.5 text-accent">
+      {[0,1,2,3,4].map(i=>(
+        <svg key={i} width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.9L22 10l-5.5 4.8L18 22l-6-3.4L6 22l1.5-7.2L2 10l7.1-1.1z"/></svg>
+      ))}
+    </div>
+  );
+}
 
+function Testimonials() {
   return (
     <section id="testimonials" className="section-y bg-bg">
       <div className="container-x">
@@ -747,67 +1037,44 @@ function Testimonials() {
             <Eyebrow>Client Love</Eyebrow>
             <h2
               className="mt-4 font-display font-bold text-text"
-              style={{ fontSize: "clamp(28px, 4vw, 40px)" }}
+              style={{ fontSize: "clamp(26px, 3.4vw, 36px)" }}
             >
               What Our Clients Say
             </h2>
           </div>
         </Reveal>
 
-        <Reveal delay={0.1}>
-          <div className="mx-auto mt-12 max-w-3xl">
-            <div className="relative overflow-hidden rounded-[24px] border border-border bg-surface p-8 sm:p-12">
-              <Quote
-                size={56}
-                className="absolute left-6 top-6 text-accent/20"
-                strokeWidth={1.5}
-              />
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -12 }}
-                  transition={{ duration: 0.4, ease: EASE }}
-                  className="relative"
-                >
-                  <p className="text-[18px] leading-relaxed text-text sm:text-[20px]">
-                    "{t.quote}"
-                  </p>
-                  <div className="mt-8 h-px w-full bg-border" />
-                  <div className="mt-6 flex items-center gap-4">
-                    <div className="grid h-12 w-12 place-items-center rounded-full bg-accent/15 font-display font-bold text-accent">
-                      {t.name
-                        .split(" ")
-                        .map((n) => n[0])
-                        .slice(0, 2)
-                        .join("")}
+        <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {TESTIMONIALS.map((t, i) => (
+            <Reveal key={t.name} delay={i * 0.08}>
+              <article className="glow-card flex h-full flex-col rounded-[16px] border border-border bg-surface p-6">
+                <div className="flex items-center justify-between">
+                  <Stars />
+                  <span className="inline-flex items-center gap-1 rounded-full border border-success/30 bg-success/10 px-2 py-0.5 text-[10.5px] font-medium text-success">
+                    <Check size={10} strokeWidth={3} />
+                    Verified Client
+                  </span>
+                </div>
+                <p className="mt-4 text-[14.5px] leading-relaxed text-text">
+                  "{t.quote}"
+                </p>
+                <div className="mt-6 flex items-center gap-3 border-t border-border pt-4">
+                  <div className="grid h-10 w-10 place-items-center rounded-full bg-accent/15 font-display text-[13px] font-bold text-accent">
+                    {t.name.split(" ").map((n) => n[0]).slice(0, 2).join("")}
+                  </div>
+                  <div className="min-w-0">
+                    <div className="font-display text-[14px] font-semibold text-text">
+                      {t.name}
                     </div>
-                    <div>
-                      <div className="font-display font-semibold text-text">{t.name}</div>
-                      <div className="text-sm text-muted">{t.role}</div>
+                    <div className="truncate text-[12.5px] text-muted">
+                      {t.role} · {t.company}
                     </div>
                   </div>
-                </motion.div>
-              </AnimatePresence>
-            </div>
-
-            {TESTIMONIALS.length > 1 && (
-              <div className="mt-8 flex justify-center gap-2">
-                {TESTIMONIALS.map((_, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setI(idx)}
-                    aria-label={`Show testimonial ${idx + 1}`}
-                    className={`h-2 rounded-full transition-all ${
-                      idx === i ? "w-8 bg-accent" : "w-2 bg-muted/40"
-                    }`}
-                  />
-                ))}
-              </div>
-            )}
-          </div>
-        </Reveal>
+                </div>
+              </article>
+            </Reveal>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -837,7 +1104,7 @@ const FAQS = [
   },
   {
     q: "How do we get started?",
-    a: "Drop us a message via the form below or ping us on WhatsApp. We'll schedule a quick 20-minute call to understand your business and send a tailored proposal within 48 hours.",
+    a: "Drop us a message via the form below or ping us on WhatsApp. We'll schedule a quick 20-minute call and send a tailored proposal within 48 hours.",
   },
 ];
 
@@ -851,7 +1118,7 @@ function FAQ() {
             <Eyebrow>Got Questions?</Eyebrow>
             <h2
               className="mt-4 font-display font-bold text-text"
-              style={{ fontSize: "clamp(28px, 4vw, 40px)" }}
+              style={{ fontSize: "clamp(26px, 3.4vw, 36px)" }}
             >
               Frequently Asked Questions
             </h2>
@@ -859,25 +1126,25 @@ function FAQ() {
         </Reveal>
 
         <Reveal delay={0.1}>
-          <div className="mx-auto mt-12 max-w-[720px]">
+          <div className="mx-auto mt-10 max-w-[720px]">
             {FAQS.map((f, i) => {
               const isOpen = open === i;
               return (
                 <div key={f.q} className="border-b border-border">
                   <button
                     onClick={() => setOpen(isOpen ? null : i)}
-                    className="flex w-full items-center justify-between gap-4 py-6 text-left"
+                    className="flex w-full items-center justify-between gap-4 py-5 text-left"
                     aria-expanded={isOpen}
                   >
-                    <span className="font-display text-[17px] font-semibold text-text sm:text-[18px]">
+                    <span className="font-display text-[16px] font-semibold text-text sm:text-[17px]">
                       {f.q}
                     </span>
                     <motion.span
                       animate={{ rotate: isOpen ? 45 : 0 }}
                       transition={{ duration: 0.3, ease: EASE }}
-                      className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-border text-accent"
+                      className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-border text-accent"
                     >
-                      <Plus size={18} />
+                      <Plus size={16} />
                     </motion.span>
                   </button>
                   <AnimatePresence initial={false}>
@@ -889,7 +1156,7 @@ function FAQ() {
                         transition={{ duration: 0.3, ease: EASE }}
                         className="overflow-hidden"
                       >
-                        <p className="pb-6 pr-12 text-[15px] leading-relaxed text-muted">
+                        <p className="pb-5 pr-10 text-[14.5px] leading-relaxed text-muted">
                           {f.a}
                         </p>
                       </motion.div>
@@ -906,6 +1173,13 @@ function FAQ() {
 }
 
 /* ---------- Contact ---------- */
+const CONTACT_PROMISES = [
+  "Free Consultation",
+  "Response Within 24 Hours",
+  "100% Custom Design",
+  "No Hidden Charges",
+];
+
 function Contact() {
   const [state, setState] = useState({ name: "", email: "", phone: "", message: "" });
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -930,13 +1204,13 @@ function Contact() {
   };
 
   const field =
-    "w-full rounded-[10px] border border-border bg-surface px-4 py-3 text-[15px] text-text placeholder:text-muted/70 transition focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30";
+    "w-full rounded-[10px] border border-border bg-surface px-4 py-3 text-[14.5px] text-text placeholder:text-muted/70 transition focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/30";
 
   return (
     <section id="contact" className="section-y relative overflow-hidden bg-bg">
       <div
         aria-hidden
-        className="pointer-events-none absolute -right-40 -top-40 h-[600px] w-[600px] rounded-full opacity-[0.09] blur-3xl"
+        className="pointer-events-none absolute -right-40 -top-40 h-[520px] w-[520px] rounded-full opacity-[0.09] blur-3xl"
         style={{ background: "radial-gradient(circle, #F2A93B 0%, transparent 70%)" }}
       />
       <div className="container-x relative">
@@ -945,25 +1219,37 @@ function Contact() {
             <Eyebrow>Get in Touch</Eyebrow>
             <h2
               className="mt-4 font-display font-bold text-text"
-              style={{ fontSize: "clamp(28px, 4vw, 40px)" }}
+              style={{ fontSize: "clamp(26px, 3.4vw, 36px)" }}
             >
               Let's Build Something Great Together
             </h2>
-            <p className="mt-4 text-[17px] text-muted">
+            <p className="mt-4 text-[16px] text-muted">
               Tell us about your business and we'll get back to you within 24 hours.
             </p>
           </div>
         </Reveal>
 
-        <div className="mt-14 grid gap-10 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
+        {/* Promise strip */}
+        <Reveal delay={0.08}>
+          <ul className="mx-auto mt-8 flex max-w-3xl flex-wrap items-center justify-center gap-x-6 gap-y-2 rounded-full border border-border bg-surface/60 px-5 py-3 text-[13px] text-text backdrop-blur">
+            {CONTACT_PROMISES.map((p) => (
+              <li key={p} className="inline-flex items-center gap-1.5">
+                <span className="text-accent">✓</span>
+                {p}
+              </li>
+            ))}
+          </ul>
+        </Reveal>
+
+        <div className="mt-10 grid gap-8 lg:grid-cols-[1.2fr_1fr] lg:gap-14">
           <Reveal>
-            <div className="rounded-[24px] border border-border bg-surface/60 p-6 backdrop-blur sm:p-10">
+            <div className="rounded-[20px] border border-border bg-surface/60 p-6 backdrop-blur sm:p-8">
               {status === "success" ? (
-                <div className="py-12 text-center">
-                  <div className="mx-auto grid h-16 w-16 place-items-center rounded-full bg-success/15 text-success">
-                    <Check size={28} strokeWidth={2.5} />
+                <div className="py-10 text-center">
+                  <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-success/15 text-success">
+                    <Check size={24} strokeWidth={2.5} />
                   </div>
-                  <h3 className="mt-6 font-display text-2xl font-bold text-text">
+                  <h3 className="mt-5 font-display text-xl font-bold text-text">
                     Thanks! We'll be in touch within 24 hours.
                   </h3>
                   <p className="mt-2 text-muted">
@@ -971,7 +1257,7 @@ function Contact() {
                   </p>
                 </div>
               ) : (
-                <form onSubmit={submit} className="space-y-5" noValidate>
+                <form onSubmit={submit} className="space-y-4" noValidate>
                   <div>
                     <label className="mb-1.5 block text-sm font-medium text-text">Name</label>
                     <input
@@ -980,15 +1266,11 @@ function Contact() {
                       onChange={(e) => setState({ ...state, name: e.target.value })}
                       placeholder="Your full name"
                     />
-                    {errors.name && (
-                      <p className="mt-1.5 text-sm text-error">{errors.name}</p>
-                    )}
+                    {errors.name && <p className="mt-1.5 text-sm text-error">{errors.name}</p>}
                   </div>
-                  <div className="grid gap-5 sm:grid-cols-2">
+                  <div className="grid gap-4 sm:grid-cols-2">
                     <div>
-                      <label className="mb-1.5 block text-sm font-medium text-text">
-                        Email
-                      </label>
+                      <label className="mb-1.5 block text-sm font-medium text-text">Email</label>
                       <input
                         type="email"
                         className={field}
@@ -996,9 +1278,7 @@ function Contact() {
                         onChange={(e) => setState({ ...state, email: e.target.value })}
                         placeholder="you@business.com"
                       />
-                      {errors.email && (
-                        <p className="mt-1.5 text-sm text-error">{errors.email}</p>
-                      )}
+                      {errors.email && <p className="mt-1.5 text-sm text-error">{errors.email}</p>}
                     </div>
                     <div>
                       <label className="mb-1.5 block text-sm font-medium text-text">
@@ -1013,9 +1293,7 @@ function Contact() {
                     </div>
                   </div>
                   <div>
-                    <label className="mb-1.5 block text-sm font-medium text-text">
-                      Message
-                    </label>
+                    <label className="mb-1.5 block text-sm font-medium text-text">Message</label>
                     <textarea
                       rows={5}
                       className={field}
@@ -1023,15 +1301,13 @@ function Contact() {
                       onChange={(e) => setState({ ...state, message: e.target.value })}
                       placeholder="Tell us a bit about your business and what you need…"
                     />
-                    {errors.message && (
-                      <p className="mt-1.5 text-sm text-error">{errors.message}</p>
-                    )}
+                    {errors.message && <p className="mt-1.5 text-sm text-error">{errors.message}</p>}
                   </div>
                   <button
                     type="submit"
                     disabled={status === "loading"}
                     className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-7 py-3.5 font-semibold text-bg transition hover:scale-[1.02] hover:bg-accent-hover disabled:opacity-70"
-                    style={{ boxShadow: "0 8px 24px -8px rgba(242,169,59,0.35)" }}
+                    style={{ boxShadow: "0 10px 24px -10px rgba(242,169,59,0.45)" }}
                   >
                     {status === "loading" ? (
                       <>
@@ -1051,58 +1327,56 @@ function Contact() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <div className="flex h-full flex-col gap-5">
+            <div className="flex h-full flex-col gap-4">
               <a
                 href="https://wa.me/919999999999"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex items-center gap-4 rounded-[20px] border border-border bg-surface p-6 transition hover:border-accent/40"
+                className="group glow-card flex items-center gap-4 rounded-[16px] border border-border bg-surface p-5"
               >
                 <div
-                  className="grid h-12 w-12 shrink-0 place-items-center rounded-full text-accent"
+                  className="grid h-11 w-11 shrink-0 place-items-center rounded-full text-accent"
                   style={{ background: "rgba(242,169,59,0.12)" }}
                 >
-                  <MessageCircle size={22} />
+                  <MessageCircle size={20} />
                 </div>
                 <div className="min-w-0">
-                  <div className="text-xs uppercase tracking-wider text-muted">
-                    Preferred
-                  </div>
-                  <div className="mt-0.5 font-display text-lg font-semibold text-text">
+                  <div className="text-[11px] uppercase tracking-wider text-muted">Preferred</div>
+                  <div className="mt-0.5 font-display text-[16px] font-semibold text-text">
                     Chat on WhatsApp
                   </div>
-                  <div className="text-sm text-muted">Fastest way to reach us</div>
+                  <div className="text-[13px] text-muted">Fastest way to reach us</div>
                 </div>
                 <ArrowRight
-                  size={18}
+                  size={16}
                   className="ml-auto text-muted transition group-hover:translate-x-1 group-hover:text-accent"
                 />
               </a>
 
               <a
                 href="mailto:hello@hkmedia.in"
-                className="group flex items-center gap-4 rounded-[20px] border border-border bg-surface p-6 transition hover:border-accent/40"
+                className="group glow-card flex items-center gap-4 rounded-[16px] border border-border bg-surface p-5"
               >
                 <div
-                  className="grid h-12 w-12 shrink-0 place-items-center rounded-full text-accent"
+                  className="grid h-11 w-11 shrink-0 place-items-center rounded-full text-accent"
                   style={{ background: "rgba(242,169,59,0.12)" }}
                 >
-                  <Mail size={22} />
+                  <Mail size={20} />
                 </div>
                 <div className="min-w-0">
-                  <div className="text-xs uppercase tracking-wider text-muted">Email</div>
-                  <div className="mt-0.5 truncate font-display text-lg font-semibold text-text">
+                  <div className="text-[11px] uppercase tracking-wider text-muted">Email</div>
+                  <div className="mt-0.5 truncate font-display text-[16px] font-semibold text-text">
                     hello@hkmedia.in
                   </div>
-                  <div className="text-sm text-muted">We reply within a few hours</div>
+                  <div className="text-[13px] text-muted">We reply within a few hours</div>
                 </div>
               </a>
 
-              <div className="rounded-[20px] border border-dashed border-border p-6">
-                <div className="text-xs uppercase tracking-wider text-accent">
+              <div className="rounded-[16px] border border-dashed border-border p-5">
+                <div className="text-[11px] uppercase tracking-wider text-accent">
                   Response Time
                 </div>
-                <p className="mt-2 text-[15px] leading-relaxed text-muted">
+                <p className="mt-2 text-[14px] leading-relaxed text-muted">
                   We typically respond within a few hours during business days
                   (Mon–Sat, 10am–7pm IST). Urgent? WhatsApp is fastest.
                 </p>
@@ -1119,7 +1393,7 @@ function Contact() {
 function Footer() {
   return (
     <footer className="border-t border-border bg-bg-alt">
-      <div className="container-x py-14">
+      <div className="container-x py-12">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <div className="font-display text-[22px] font-bold">
@@ -1172,11 +1446,7 @@ function Footer() {
               {[
                 { Icon: Instagram, href: "https://instagram.com", label: "Instagram" },
                 { Icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
-                {
-                  Icon: MessageCircle,
-                  href: "https://wa.me/919999999999",
-                  label: "WhatsApp",
-                },
+                { Icon: MessageCircle, href: "https://wa.me/919999999999", label: "WhatsApp" },
                 { Icon: Mail, href: "mailto:hello@hkmedia.in", label: "Email" },
               ].map(({ Icon, href, label }) => (
                 <a
@@ -1195,7 +1465,7 @@ function Footer() {
         </div>
       </div>
       <div className="border-t border-border">
-        <div className="container-x flex flex-col items-center justify-between gap-2 py-6 text-[13px] text-muted sm:flex-row">
+        <div className="container-x flex flex-col items-center justify-between gap-2 py-5 text-[12.5px] text-muted sm:flex-row">
           <p>© 2026 HK Media. All rights reserved.</p>
           <p>Made with care for local businesses.</p>
         </div>
