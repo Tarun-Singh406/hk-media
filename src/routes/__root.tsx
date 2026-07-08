@@ -81,17 +81,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "HK Media helps dental clinics, coaching institutes, and local businesses grow with custom websites, AI-generated video ads, and digital marketing — all in one place.",
+          "HK Media helps dental clinics, coaching institutes, and local businesses grow with custom websites, AI-generated video ads, and digital marketing.",
       },
       { property: "og:title", content: "HK Media — Websites, AI Video Ads & Digital Marketing" },
       {
         property: "og:description",
         content:
-          "Boutique digital partner for dental clinics, coaching institutes & local businesses. Websites, AI video ads, and social media — done right.",
+          "HK Media helps dental clinics, coaching institutes, and local businesses grow with custom websites, AI-generated video ads, and digital marketing.",
       },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "HK Media" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "HK Media — Websites, AI Video Ads & Digital Marketing" },
+      { name: "twitter:description", content: "HK Media helps dental clinics, coaching institutes, and local businesses grow with custom websites, AI-generated video ads, and digital marketing." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/17c788e2-a645-4615-a894-8718a0810795" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/17c788e2-a645-4615-a894-8718a0810795" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
