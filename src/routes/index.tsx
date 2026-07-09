@@ -535,35 +535,38 @@ function Services() {
         </Reveal>
 
         <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {SERVICES.map((s, i) => (
-            <Reveal key={s.title} delay={i * 0.08}>
-              <article className="glow-card group relative h-full overflow-hidden rounded-[18px] border border-border bg-surface p-8">
-                <div aria-hidden className="absolute inset-0 grain-noise opacity-[0.6]" />
-                <div className="relative">
-                  <div
-                    className="grid h-14 w-14 place-items-center rounded-[14px] text-accent"
-                    style={{ background: "rgba(242,169,59,0.10)", border: "1px solid rgba(242,169,59,0.18)" }}
-                  >
-                    <s.Icon />
+          {SERVICES.map((s, i) => {
+            const floatClass = i === 0 ? "float-a" : i === 1 ? "float-b" : "float-c";
+            return (
+              <Reveal key={s.title} delay={i * 0.08} className={floatClass}>
+                <article className="glow-card group relative h-full overflow-hidden rounded-[18px] border border-border bg-surface p-8">
+                  <div aria-hidden className="absolute inset-0 grain-noise opacity-[0.6]" />
+                  <div className="relative">
+                    <div
+                      className="grid h-14 w-14 place-items-center rounded-[14px] text-accent"
+                      style={{ background: "rgba(242,169,59,0.10)", border: "1px solid rgba(242,169,59,0.18)" }}
+                    >
+                      <s.Icon />
+                    </div>
+                    <h3 className="mt-7 font-display text-[20px] font-semibold leading-snug text-text">
+                      {s.title}
+                    </h3>
+                    <p className="mt-3 text-[14.5px] leading-relaxed text-muted">{s.desc}</p>
+                    <button
+                      onClick={() => scrollToId("contact")}
+                      className="mt-7 inline-flex items-center gap-1.5 text-[13.5px] font-semibold text-accent"
+                    >
+                      Learn more
+                      <ArrowRight
+                        size={14}
+                        className="transition-transform duration-300 group-hover:translate-x-1"
+                      />
+                    </button>
                   </div>
-                  <h3 className="mt-7 font-display text-[20px] font-semibold leading-snug text-text">
-                    {s.title}
-                  </h3>
-                  <p className="mt-3 text-[14.5px] leading-relaxed text-muted">{s.desc}</p>
-                  <button
-                    onClick={() => scrollToId("contact")}
-                    className="mt-7 inline-flex items-center gap-1.5 text-[13.5px] font-semibold text-accent"
-                  >
-                    Learn more
-                    <ArrowRight
-                      size={14}
-                      className="transition-transform duration-300 group-hover:translate-x-1"
-                    />
-                  </button>
-                </div>
-              </article>
-            </Reveal>
-          ))}
+                </article>
+              </Reveal>
+            );
+          })}
         </div>
       </div>
     </section>
