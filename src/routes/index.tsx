@@ -1500,8 +1500,8 @@ function Footer() {
               {[
                 { Icon: Instagram, href: "https://instagram.com", label: "Instagram" },
                 { Icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
-                { Icon: MessageCircle, href: "https://wa.me/919999999999", label: "WhatsApp" },
-                { Icon: Mail, href: "mailto:hello@hkmedia.in", label: "Email" },
+                { Icon: MessageCircle, href: WHATSAPP_URL, label: "WhatsApp" },
+                { Icon: Mail, href: EMAIL_HREF, label: "Email" },
               ].map(({ Icon, href, label }) => (
                 <a
                   key={label}
