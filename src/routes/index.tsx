@@ -293,9 +293,18 @@ const TRUST_BADGES = [
 ];
 
 function Hero() {
+  const heroRef = useRef<HTMLElement | null>(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+  const mockupY = useTransform(scrollYProgress, [0, 1], [0, -60]);
+  const copyY = useTransform(scrollYProgress, [0, 1], [0, 40]);
+
   return (
     <section
       id="hero"
+      ref={heroRef}
       className="relative overflow-hidden bg-bg pt-32 pb-20 md:pt-36 md:pb-24"
     >
       {/* subtle accent halo */}
@@ -308,7 +317,7 @@ function Hero() {
 
       <div className="container-x relative grid items-center gap-14 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
         {/* LEFT — copy */}
-        <div>
+        <motion.div style={{ y: copyY }}>
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
