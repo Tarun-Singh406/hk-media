@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useScroll, useTransform } from "motion/react";
 import {
   Menu,
   X,
@@ -9,10 +9,19 @@ import {
   Plus,
   Mail,
   MessageCircle,
+  Phone,
   Instagram,
   Linkedin,
   ChevronDown,
 } from "lucide-react";
+import anuskaaThumb from "../assets/anuskaa-dentocare.jpg.asset.json";
+import amrawatiThumb from "../assets/amrawati-tutorials.jpg.asset.json";
+
+const WHATSAPP_URL = "https://wa.me/919608604657";
+const PHONE_TEL = "tel:+919608604657";
+const PHONE_DISPLAY = "+91 96086 04657";
+const EMAIL = "hello.hkmedia@gmail.com";
+const EMAIL_HREF = `mailto:${EMAIL}`;
 
 export const Route = createFileRoute("/")({
   head: () => ({
