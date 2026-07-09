@@ -797,48 +797,29 @@ type Project = {
   industry: string;
   goal: string;
   variant: "dental" | "coaching" | "ortho" | "video-dental" | "video-coaching" | "video-local";
+  thumbnail?: string;
+  liveUrl?: string;
 };
 
 const WEB_PROJECTS: Project[] = [
   {
-    title: "Bright Smile Dental",
-    industry: "Dental Clinic",
-    goal: "Drive new patient bookings via online enquiry form.",
+    title: "Anuskaa Dentocare",
+    industry: "Dental Clinic Website",
+    goal: "Modern dental clinic website with appointment booking, responsive design, WhatsApp integration and lead generation.",
     variant: "dental",
+    thumbnail: anuskaaThumb.url,
+    liveUrl: "https://anuskaa-dentocare.lovable.app/",
   },
   {
-    title: "Apex Coaching Academy",
-    industry: "Coaching Institute",
-    goal: "Convert visitors into demo class registrations.",
+    title: "AMRAWATI TUTORIALS",
+    industry: "Coaching Institute Website",
+    goal: "Professional coaching institute website designed for admissions, student enquiries and online growth.",
     variant: "coaching",
-  },
-  {
-    title: "Ortholine Specialists",
-    industry: "Orthodontics",
-    goal: "Showcase specialist services & generate consults.",
-    variant: "ortho",
+    thumbnail: amrawatiThumb.url,
+    liveUrl: "https://your-coaching-demo.lovable.app",
   },
 ];
-const VIDEO_PROJECTS: Project[] = [
-  {
-    title: "Smile Reveal Campaign",
-    industry: "Dental Clinic",
-    goal: "Drive teeth-whitening package bookings via Instagram.",
-    variant: "video-dental",
-  },
-  {
-    title: "Topper Stories",
-    industry: "Coaching Institute",
-    goal: "Build trust through authentic student success ads.",
-    variant: "video-coaching",
-  },
-  {
-    title: "Grand Opening Teaser",
-    industry: "Local Business",
-    goal: "Generate buzz around storefront launch in 48 hours.",
-    variant: "video-local",
-  },
-];
+const VIDEO_PROJECTS: Project[] = [];
 
 function ProjectVisual({ variant }: { variant: Project["variant"] }) {
   // Browser-style mock for websites, video frame mock for videos
