@@ -13,9 +13,12 @@ import {
   Instagram,
   Linkedin,
   ChevronDown,
+  Play,
 } from "lucide-react";
 import anuskaaThumb from "../assets/anuskaa-dentocare.jpg.asset.json";
 import amrawatiThumb from "../assets/amrawati-tutorials.jpg.asset.json";
+import aiAd1Video from "../assets/ai-ad-1.mp4.asset.json";
+import aiAd2Video from "../assets/ai-ad-2.mp4.asset.json";
 
 const WHATSAPP_URL = "https://wa.me/919608604657";
 const PHONE_TEL = "tel:+919608604657";
@@ -799,6 +802,7 @@ type Project = {
   variant: "dental" | "coaching" | "ortho" | "video-dental" | "video-coaching" | "video-local";
   thumbnail?: string;
   liveUrl?: string;
+  videoUrl?: string;
 };
 
 const WEB_PROJECTS: Project[] = [
@@ -819,9 +823,47 @@ const WEB_PROJECTS: Project[] = [
     liveUrl: "https://your-coaching-demo.lovable.app",
   },
 ];
-const VIDEO_PROJECTS: Project[] = [];
 
-function ProjectVisual({ variant, thumbnail, title }: { variant: Project["variant"]; thumbnail?: string; title?: string }) {
+const VIDEO_PROJECTS: Project[] = [
+  {
+    title: "Scroll-Stopping Brand Reel",
+    industry: "AI Video Advertisement",
+    goal: "Cinematic AI-generated promotional advertisement crafted to grab attention in the first two seconds and drive customer engagement.",
+    variant: "video-local",
+    videoUrl: aiAd1Video.url,
+  },
+  {
+    title: "Product Story Ad",
+    industry: "AI Video Advertisement",
+    goal: "Premium AI-generated short-form ad designed to boost brand recall and convert social viewers into paying customers.",
+    variant: "video-local",
+    videoUrl: aiAd2Video.url,
+  },
+];
+
+function ProjectVisual({
+  variant,
+  thumbnail,
+  videoUrl,
+  title,
+}: {
+  variant: Project["variant"];
+  thumbnail?: string;
+  videoUrl?: string;
+  title?: string;
+}) {
+  if (videoUrl) {
+    return (
+      <video
+        src={videoUrl}
+        muted
+        playsInline
+        preload="metadata"
+        aria-label={title ?? "AI video advertisement preview"}
+        className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+      />
+    );
+  }
   if (thumbnail) {
     return (
       <img
@@ -830,45 +872,6 @@ function ProjectVisual({ variant, thumbnail, title }: { variant: Project["varian
         loading="lazy"
         className="h-full w-full object-cover object-top transition-transform duration-500 ease-out group-hover:scale-105"
       />
-    );
-  }
-  // Browser-style mock for websites, video frame mock for videos
-  const isVideo = variant.startsWith("video");
-  if (isVideo) {
-    return (
-      <div className="relative h-full w-full overflow-hidden bg-[#0E0E10]">
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(135deg, rgba(242,169,59,0.22), rgba(242,169,59,0.04) 55%, transparent 100%)",
-          }}
-        />
-        {/* phone frame */}
-        <div className="absolute left-1/2 top-1/2 h-[78%] w-[34%] -translate-x-1/2 -translate-y-1/2 rounded-[18px] border-2 border-border bg-[#15151A] p-1.5 shadow-[0_24px_60px_-24px_rgba(0,0,0,0.8)]">
-          <div className="relative h-full w-full overflow-hidden rounded-[12px]"
-               style={{ background: "linear-gradient(160deg, #1A1A1D 0%, #0E0E10 100%)" }}>
-            <div
-              className="absolute inset-0"
-              style={{
-                background:
-                  "radial-gradient(circle at 60% 40%, rgba(242,169,59,0.4), transparent 55%)",
-              }}
-            />
-            <div className="absolute left-1/2 top-1/2 grid h-11 w-11 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-accent text-bg shadow-[0_8px_20px_rgba(242,169,59,0.5)]">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            </div>
-            <div className="absolute inset-x-2 bottom-2 space-y-1">
-              <div className="h-1 w-1/2 rounded-sm bg-text/70" />
-              <div className="h-1 w-2/3 rounded-sm bg-muted/40" />
-            </div>
-          </div>
-        </div>
-        {/* timecode */}
-        <div className="absolute right-3 top-3 rounded bg-bg/60 px-1.5 py-0.5 font-mono text-[10px] text-accent backdrop-blur">
-          00:15
-        </div>
-      </div>
     );
   }
 
@@ -912,8 +915,62 @@ function ProjectVisual({ variant, thumbnail, title }: { variant: Project["varian
   );
 }
 
+function VideoLightbox({ src, title, onClose }: { src: string; title: string; onClose: () => void }) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [onClose]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.25, ease: EASE }}
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-bg/90 p-4 backdrop-blur-md"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label={title}
+    >
+      <motion.div
+        initial={{ opacity: 0, scale: 0.96, y: 12 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.96, y: 12 }}
+        transition={{ duration: 0.3, ease: EASE }}
+        className="relative w-full max-w-5xl overflow-hidden rounded-[16px] border border-border bg-black shadow-[0_40px_120px_-30px_rgba(0,0,0,0.9)]"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          onClick={onClose}
+          aria-label="Close video"
+          className="absolute right-3 top-3 z-10 grid h-10 w-10 place-items-center rounded-full border border-border bg-bg/70 text-text backdrop-blur transition hover:bg-accent hover:text-bg"
+        >
+          <X size={18} />
+        </button>
+        <video
+          src={src}
+          autoPlay
+          controls
+          playsInline
+          className="block h-auto max-h-[85vh] w-full bg-black"
+        />
+      </motion.div>
+    </motion.div>
+  );
+}
+
 function Portfolio() {
   const [tab, setTab] = useState<"web" | "video">("web");
+  const [lightbox, setLightbox] = useState<Project | null>(null);
   const items = tab === "web" ? WEB_PROJECTS : VIDEO_PROJECTS;
 
   return (
@@ -964,57 +1021,95 @@ function Portfolio() {
               transition={{ duration: 0.3, ease: EASE }}
               className="grid w-full gap-5 md:grid-cols-2 lg:grid-cols-3"
             >
-              {items.map((p, i) => (
-                <motion.article
-                  key={p.title}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: i * 0.07, ease: EASE }}
-                  className="glow-card group flex h-full flex-col overflow-hidden rounded-[16px] border border-border bg-surface"
-                >
-                  <div className="relative aspect-[16/10] overflow-hidden border-b border-border">
-                    <ProjectVisual variant={p.variant} thumbnail={p.thumbnail} title={p.title} />
-                    {p.liveUrl && (
-                      <div className="pointer-events-none absolute inset-0 flex items-end justify-center bg-gradient-to-t from-bg/85 via-bg/20 to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                        <span className="inline-flex items-center gap-1.5 rounded-full bg-accent px-4 py-2 text-[13px] font-semibold text-bg shadow-[0_10px_24px_-10px_rgba(242,169,59,0.6)]">
-                          View Live
-                          <ArrowRight size={14} />
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex flex-1 flex-col p-5">
-                    <div className="inline-flex w-fit items-center rounded-full border border-accent/40 bg-accent/10 px-2.5 py-0.5 text-[11px] font-medium uppercase tracking-wider text-accent">
-                      {p.industry}
+              {items.map((p, i) => {
+                const isVideo = Boolean(p.videoUrl);
+                const openVideo = () => isVideo && setLightbox(p);
+                return (
+                  <motion.article
+                    key={p.title}
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: i * 0.07, ease: EASE }}
+                    className="glow-card group flex h-full flex-col overflow-hidden rounded-[16px] border border-border bg-surface"
+                  >
+                    <div
+                      className={`relative aspect-[16/10] overflow-hidden border-b border-border ${isVideo ? "cursor-pointer" : ""}`}
+                      onClick={openVideo}
+                      role={isVideo ? "button" : undefined}
+                      aria-label={isVideo ? `Play ${p.title}` : undefined}
+                    >
+                      <ProjectVisual
+                        variant={p.variant}
+                        thumbnail={p.thumbnail}
+                        videoUrl={p.videoUrl}
+                        title={p.title}
+                      />
+                      {isVideo && (
+                        <>
+                          <div className="pointer-events-none absolute inset-0 bg-bg/30 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                          <div className="pointer-events-none absolute inset-0 grid place-items-center">
+                            <span className="grid h-14 w-14 place-items-center rounded-full bg-accent text-bg shadow-[0_12px_30px_-8px_rgba(242,169,59,0.65)] transition-transform duration-300 group-hover:scale-110">
+                              <Play size={22} fill="currentColor" />
+                            </span>
+                          </div>
+                          <div className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-center p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                            <span className="inline-flex items-center gap-1.5 rounded-full bg-accent px-4 py-2 text-[13px] font-semibold text-bg shadow-[0_10px_24px_-10px_rgba(242,169,59,0.6)]">
+                              Watch Video
+                              <Play size={13} fill="currentColor" />
+                            </span>
+                          </div>
+                        </>
+                      )}
+                      {p.liveUrl && !isVideo && (
+                        <div className="pointer-events-none absolute inset-0 flex items-end justify-center bg-gradient-to-t from-bg/85 via-bg/20 to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                          <span className="inline-flex items-center gap-1.5 rounded-full bg-accent px-4 py-2 text-[13px] font-semibold text-bg shadow-[0_10px_24px_-10px_rgba(242,169,59,0.6)]">
+                            View Live
+                            <ArrowRight size={14} />
+                          </span>
+                        </div>
+                      )}
                     </div>
-                    <h3 className="mt-3 font-display text-[17px] font-semibold text-text">
-                      {p.title}
-                    </h3>
-                    <p className="mt-1.5 text-[13.5px] leading-relaxed text-muted">
-                      {p.goal}
-                    </p>
-                    {p.liveUrl ? (
-                      <a
-                        href={p.liveUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="mt-5 inline-flex items-center gap-1.5 self-start text-[13px] font-semibold text-accent"
-                      >
-                        View Live
-                        <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
-                      </a>
-                    ) : (
-                      <button
-                        onClick={() => scrollToId("contact")}
-                        className="mt-5 inline-flex items-center gap-1.5 self-start text-[13px] font-semibold text-accent"
-                      >
-                        View Live
-                        <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
-                      </button>
-                    )}
-                  </div>
-                </motion.article>
-              ))}
+                    <div className="flex flex-1 flex-col p-5">
+                      <div className="inline-flex w-fit items-center rounded-full border border-accent/40 bg-accent/10 px-2.5 py-0.5 text-[11px] font-medium uppercase tracking-wider text-accent">
+                        {p.industry}
+                      </div>
+                      <h3 className="mt-3 font-display text-[17px] font-semibold text-text">
+                        {p.title}
+                      </h3>
+                      <p className="mt-1.5 text-[13.5px] leading-relaxed text-muted">
+                        {p.goal}
+                      </p>
+                      {isVideo ? (
+                        <button
+                          onClick={openVideo}
+                          className="mt-5 inline-flex items-center gap-1.5 self-start text-[13px] font-semibold text-accent"
+                        >
+                          Watch Video
+                          <Play size={13} fill="currentColor" className="transition-transform group-hover:translate-x-1" />
+                        </button>
+                      ) : p.liveUrl ? (
+                        <a
+                          href={p.liveUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="mt-5 inline-flex items-center gap-1.5 self-start text-[13px] font-semibold text-accent"
+                        >
+                          View Live
+                          <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+                        </a>
+                      ) : (
+                        <button
+                          onClick={() => scrollToId("contact")}
+                          className="mt-5 inline-flex items-center gap-1.5 self-start text-[13px] font-semibold text-accent"
+                        >
+                          View Live
+                          <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+                        </button>
+                      )}
+                    </div>
+                  </motion.article>
+                );
+              })}
               {items.length === 0 && (
                 <div className="col-span-full py-12 text-center text-muted">
                   New case studies coming soon.
@@ -1024,9 +1119,19 @@ function Portfolio() {
           </AnimatePresence>
         </div>
       </div>
+      <AnimatePresence>
+        {lightbox && lightbox.videoUrl && (
+          <VideoLightbox
+            src={lightbox.videoUrl}
+            title={lightbox.title}
+            onClose={() => setLightbox(null)}
+          />
+        )}
+      </AnimatePresence>
     </section>
   );
 }
+
 
 /* ---------- Testimonials (Google-review style grid) ---------- */
 const TESTIMONIALS = [
