@@ -821,7 +821,17 @@ const WEB_PROJECTS: Project[] = [
 ];
 const VIDEO_PROJECTS: Project[] = [];
 
-function ProjectVisual({ variant }: { variant: Project["variant"] }) {
+function ProjectVisual({ variant, thumbnail, title }: { variant: Project["variant"]; thumbnail?: string; title?: string }) {
+  if (thumbnail) {
+    return (
+      <img
+        src={thumbnail}
+        alt={title ?? "Project screenshot"}
+        loading="lazy"
+        className="h-full w-full object-cover object-top transition-transform duration-500 ease-out group-hover:scale-105"
+      />
+    );
+  }
   // Browser-style mock for websites, video frame mock for videos
   const isVideo = variant.startsWith("video");
   if (isVideo) {
