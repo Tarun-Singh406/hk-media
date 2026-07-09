@@ -595,8 +595,8 @@ const USPS = [
 ];
 
 const STATS = [
-  { value: 40, suffix: "+", label: "Projects Delivered" },
-  { value: 12, suffix: "+", label: "Industries Served" },
+  { value: 8, suffix: "+", label: "Projects Delivered" },
+  { value: 4, suffix: "+", label: "Industries Served" },
   { value: 98, suffix: "%", label: "Client Retention" },
 ];
 
@@ -1136,16 +1136,16 @@ function Portfolio() {
 /* ---------- Testimonials (Google-review style grid) ---------- */
 const TESTIMONIALS = [
   {
-    name: "Dr. Anjali Mehta",
-    role: "Founder",
-    company: "Bright Smile Dental",
+    name: "Dr. Anuskaa Kumari",
+    role: "\u00a0Anuskaa Dentocare: Ranchi",
+    company: "",
     quote:
       "HK Media rebuilt our clinic's site and ran our launch ads in under two weeks. Weekly appointment requests doubled in a month.",
   },
   {
     name: "Rohit Sharma",
     role: "Director",
-    company: "Apex Coaching Academy",
+    company: "Amrawati Tutorials",
     quote:
       "Their AI video ads took our admission enquiries from 5 a week to 30+. Plus, they actually pick up the phone — rare these days.",
   },
@@ -1207,7 +1207,7 @@ function Testimonials() {
                       {t.name}
                     </div>
                     <div className="truncate text-[12.5px] text-muted">
-                      {t.role} · {t.company}
+                      {t.role} {t.company && `· ${t.company}`}
                     </div>
                   </div>
                 </div>
