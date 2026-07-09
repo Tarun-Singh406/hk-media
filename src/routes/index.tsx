@@ -973,7 +973,15 @@ function Portfolio() {
                   className="glow-card group flex h-full flex-col overflow-hidden rounded-[16px] border border-border bg-surface"
                 >
                   <div className="relative aspect-[16/10] overflow-hidden border-b border-border">
-                    <ProjectVisual variant={p.variant} />
+                    <ProjectVisual variant={p.variant} thumbnail={p.thumbnail} title={p.title} />
+                    {p.liveUrl && (
+                      <div className="pointer-events-none absolute inset-0 flex items-end justify-center bg-gradient-to-t from-bg/85 via-bg/20 to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-accent px-4 py-2 text-[13px] font-semibold text-bg shadow-[0_10px_24px_-10px_rgba(242,169,59,0.6)]">
+                          View Live
+                          <ArrowRight size={14} />
+                        </span>
+                      </div>
+                    )}
                   </div>
                   <div className="flex flex-1 flex-col p-5">
                     <div className="inline-flex w-fit items-center rounded-full border border-accent/40 bg-accent/10 px-2.5 py-0.5 text-[11px] font-medium uppercase tracking-wider text-accent">
@@ -985,16 +993,33 @@ function Portfolio() {
                     <p className="mt-1.5 text-[13.5px] leading-relaxed text-muted">
                       {p.goal}
                     </p>
-                    <button
-                      onClick={() => scrollToId("contact")}
-                      className="mt-5 inline-flex items-center gap-1.5 self-start text-[13px] font-semibold text-accent"
-                    >
-                      View Live
-                      <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
-                    </button>
+                    {p.liveUrl ? (
+                      <a
+                        href={p.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-5 inline-flex items-center gap-1.5 self-start text-[13px] font-semibold text-accent"
+                      >
+                        View Live
+                        <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+                      </a>
+                    ) : (
+                      <button
+                        onClick={() => scrollToId("contact")}
+                        className="mt-5 inline-flex items-center gap-1.5 self-start text-[13px] font-semibold text-accent"
+                      >
+                        View Live
+                        <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+                      </button>
+                    )}
                   </div>
                 </motion.article>
               ))}
+              {items.length === 0 && (
+                <div className="col-span-full py-12 text-center text-muted">
+                  New case studies coming soon.
+                </div>
+              )}
             </motion.div>
           </AnimatePresence>
         </div>
