@@ -395,13 +395,14 @@ function Hero() {
               </li>
             ))}
           </motion.ul>
-        </div>
+        </motion.div>
 
         {/* RIGHT — CSS browser mockup + floating cards */}
         <motion.div
           initial={{ opacity: 0, y: 24, scale: 0.98 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.25, ease: EASE }}
+          style={{ y: mockupY }}
           className="relative mx-auto w-full max-w-[520px]"
         >
           <div className="float-a">
