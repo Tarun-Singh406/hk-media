@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useScroll, useTransform } from "motion/react";
 import {
   Menu,
   X,
@@ -9,10 +9,19 @@ import {
   Plus,
   Mail,
   MessageCircle,
+  Phone,
   Instagram,
   Linkedin,
   ChevronDown,
 } from "lucide-react";
+import anuskaaThumb from "../assets/anuskaa-dentocare.jpg.asset.json";
+import amrawatiThumb from "../assets/amrawati-tutorials.jpg.asset.json";
+
+const WHATSAPP_URL = "https://wa.me/919608604657";
+const PHONE_TEL = "tel:+919608604657";
+const PHONE_DISPLAY = "+91 96086 04657";
+const EMAIL = "hello.hkmedia@gmail.com";
+const EMAIL_HREF = `mailto:${EMAIL}`;
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -284,9 +293,18 @@ const TRUST_BADGES = [
 ];
 
 function Hero() {
+  const heroRef = useRef<HTMLElement | null>(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"],
+  });
+  const mockupY = useTransform(scrollYProgress, [0, 1], [0, -60]);
+  const copyY = useTransform(scrollYProgress, [0, 1], [0, 40]);
+
   return (
     <section
       id="hero"
+      ref={heroRef}
       className="relative overflow-hidden bg-bg pt-32 pb-20 md:pt-36 md:pb-24"
     >
       {/* subtle accent halo */}
@@ -299,7 +317,7 @@ function Hero() {
 
       <div className="container-x relative grid items-center gap-14 lg:grid-cols-[1.05fr_1fr] lg:gap-16">
         {/* LEFT — copy */}
-        <div>
+        <motion.div style={{ y: copyY }}>
           <motion.div
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
@@ -377,13 +395,14 @@ function Hero() {
               </li>
             ))}
           </motion.ul>
-        </div>
+        </motion.div>
 
         {/* RIGHT — CSS browser mockup + floating cards */}
         <motion.div
           initial={{ opacity: 0, y: 24, scale: 0.98 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.25, ease: EASE }}
+          style={{ y: mockupY }}
           className="relative mx-auto w-full max-w-[520px]"
         >
           <div className="float-a">
@@ -778,50 +797,41 @@ type Project = {
   industry: string;
   goal: string;
   variant: "dental" | "coaching" | "ortho" | "video-dental" | "video-coaching" | "video-local";
+  thumbnail?: string;
+  liveUrl?: string;
 };
 
 const WEB_PROJECTS: Project[] = [
   {
-    title: "Bright Smile Dental",
-    industry: "Dental Clinic",
-    goal: "Drive new patient bookings via online enquiry form.",
+    title: "Anuskaa Dentocare",
+    industry: "Dental Clinic Website",
+    goal: "Modern dental clinic website with appointment booking, responsive design, WhatsApp integration and lead generation.",
     variant: "dental",
+    thumbnail: anuskaaThumb.url,
+    liveUrl: "https://anuskaa-dentocare.lovable.app/",
   },
   {
-    title: "Apex Coaching Academy",
-    industry: "Coaching Institute",
-    goal: "Convert visitors into demo class registrations.",
+    title: "AMRAWATI TUTORIALS",
+    industry: "Coaching Institute Website",
+    goal: "Professional coaching institute website designed for admissions, student enquiries and online growth.",
     variant: "coaching",
-  },
-  {
-    title: "Ortholine Specialists",
-    industry: "Orthodontics",
-    goal: "Showcase specialist services & generate consults.",
-    variant: "ortho",
+    thumbnail: amrawatiThumb.url,
+    liveUrl: "https://your-coaching-demo.lovable.app",
   },
 ];
-const VIDEO_PROJECTS: Project[] = [
-  {
-    title: "Smile Reveal Campaign",
-    industry: "Dental Clinic",
-    goal: "Drive teeth-whitening package bookings via Instagram.",
-    variant: "video-dental",
-  },
-  {
-    title: "Topper Stories",
-    industry: "Coaching Institute",
-    goal: "Build trust through authentic student success ads.",
-    variant: "video-coaching",
-  },
-  {
-    title: "Grand Opening Teaser",
-    industry: "Local Business",
-    goal: "Generate buzz around storefront launch in 48 hours.",
-    variant: "video-local",
-  },
-];
+const VIDEO_PROJECTS: Project[] = [];
 
-function ProjectVisual({ variant }: { variant: Project["variant"] }) {
+function ProjectVisual({ variant, thumbnail, title }: { variant: Project["variant"]; thumbnail?: string; title?: string }) {
+  if (thumbnail) {
+    return (
+      <img
+        src={thumbnail}
+        alt={title ?? "Project screenshot"}
+        loading="lazy"
+        className="h-full w-full object-cover object-top transition-transform duration-500 ease-out group-hover:scale-105"
+      />
+    );
+  }
   // Browser-style mock for websites, video frame mock for videos
   const isVideo = variant.startsWith("video");
   if (isVideo) {
@@ -963,7 +973,15 @@ function Portfolio() {
                   className="glow-card group flex h-full flex-col overflow-hidden rounded-[16px] border border-border bg-surface"
                 >
                   <div className="relative aspect-[16/10] overflow-hidden border-b border-border">
-                    <ProjectVisual variant={p.variant} />
+                    <ProjectVisual variant={p.variant} thumbnail={p.thumbnail} title={p.title} />
+                    {p.liveUrl && (
+                      <div className="pointer-events-none absolute inset-0 flex items-end justify-center bg-gradient-to-t from-bg/85 via-bg/20 to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-accent px-4 py-2 text-[13px] font-semibold text-bg shadow-[0_10px_24px_-10px_rgba(242,169,59,0.6)]">
+                          View Live
+                          <ArrowRight size={14} />
+                        </span>
+                      </div>
+                    )}
                   </div>
                   <div className="flex flex-1 flex-col p-5">
                     <div className="inline-flex w-fit items-center rounded-full border border-accent/40 bg-accent/10 px-2.5 py-0.5 text-[11px] font-medium uppercase tracking-wider text-accent">
@@ -975,16 +993,33 @@ function Portfolio() {
                     <p className="mt-1.5 text-[13.5px] leading-relaxed text-muted">
                       {p.goal}
                     </p>
-                    <button
-                      onClick={() => scrollToId("contact")}
-                      className="mt-5 inline-flex items-center gap-1.5 self-start text-[13px] font-semibold text-accent"
-                    >
-                      View Live
-                      <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
-                    </button>
+                    {p.liveUrl ? (
+                      <a
+                        href={p.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-5 inline-flex items-center gap-1.5 self-start text-[13px] font-semibold text-accent"
+                      >
+                        View Live
+                        <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+                      </a>
+                    ) : (
+                      <button
+                        onClick={() => scrollToId("contact")}
+                        className="mt-5 inline-flex items-center gap-1.5 self-start text-[13px] font-semibold text-accent"
+                      >
+                        View Live
+                        <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+                      </button>
+                    )}
                   </div>
                 </motion.article>
               ))}
+              {items.length === 0 && (
+                <div className="col-span-full py-12 text-center text-muted">
+                  New case studies coming soon.
+                </div>
+              )}
             </motion.div>
           </AnimatePresence>
         </div>
@@ -1329,7 +1364,7 @@ function Contact() {
           <Reveal delay={0.1}>
             <div className="flex h-full flex-col gap-4">
               <a
-                href="https://wa.me/919999999999"
+                href={WHATSAPP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group glow-card flex items-center gap-4 rounded-[16px] border border-border bg-surface p-5"
@@ -1354,7 +1389,26 @@ function Contact() {
               </a>
 
               <a
-                href="mailto:hello@hkmedia.in"
+                href={PHONE_TEL}
+                className="group glow-card flex items-center gap-4 rounded-[16px] border border-border bg-surface p-5"
+              >
+                <div
+                  className="grid h-11 w-11 shrink-0 place-items-center rounded-full text-accent"
+                  style={{ background: "rgba(242,169,59,0.12)" }}
+                >
+                  <Phone size={20} />
+                </div>
+                <div className="min-w-0">
+                  <div className="text-[11px] uppercase tracking-wider text-muted">Call</div>
+                  <div className="mt-0.5 truncate font-display text-[16px] font-semibold text-text">
+                    {PHONE_DISPLAY}
+                  </div>
+                  <div className="text-[13px] text-muted">Mon–Sat, 10am–7pm IST</div>
+                </div>
+              </a>
+
+              <a
+                href={EMAIL_HREF}
                 className="group glow-card flex items-center gap-4 rounded-[16px] border border-border bg-surface p-5"
               >
                 <div
@@ -1366,7 +1420,7 @@ function Contact() {
                 <div className="min-w-0">
                   <div className="text-[11px] uppercase tracking-wider text-muted">Email</div>
                   <div className="mt-0.5 truncate font-display text-[16px] font-semibold text-text">
-                    hello@hkmedia.in
+                    {EMAIL}
                   </div>
                   <div className="text-[13px] text-muted">We reply within a few hours</div>
                 </div>
@@ -1446,8 +1500,8 @@ function Footer() {
               {[
                 { Icon: Instagram, href: "https://instagram.com", label: "Instagram" },
                 { Icon: Linkedin, href: "https://linkedin.com", label: "LinkedIn" },
-                { Icon: MessageCircle, href: "https://wa.me/919999999999", label: "WhatsApp" },
-                { Icon: Mail, href: "mailto:hello@hkmedia.in", label: "Email" },
+                { Icon: MessageCircle, href: WHATSAPP_URL, label: "WhatsApp" },
+                { Icon: Mail, href: EMAIL_HREF, label: "Email" },
               ].map(({ Icon, href, label }) => (
                 <a
                   key={label}
