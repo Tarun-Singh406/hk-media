@@ -1364,7 +1364,7 @@ function Contact() {
           <Reveal delay={0.1}>
             <div className="flex h-full flex-col gap-4">
               <a
-                href="https://wa.me/919999999999"
+                href={WHATSAPP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group glow-card flex items-center gap-4 rounded-[16px] border border-border bg-surface p-5"
@@ -1389,7 +1389,26 @@ function Contact() {
               </a>
 
               <a
-                href="mailto:hello@hkmedia.in"
+                href={PHONE_TEL}
+                className="group glow-card flex items-center gap-4 rounded-[16px] border border-border bg-surface p-5"
+              >
+                <div
+                  className="grid h-11 w-11 shrink-0 place-items-center rounded-full text-accent"
+                  style={{ background: "rgba(242,169,59,0.12)" }}
+                >
+                  <Phone size={20} />
+                </div>
+                <div className="min-w-0">
+                  <div className="text-[11px] uppercase tracking-wider text-muted">Call</div>
+                  <div className="mt-0.5 truncate font-display text-[16px] font-semibold text-text">
+                    {PHONE_DISPLAY}
+                  </div>
+                  <div className="text-[13px] text-muted">Mon–Sat, 10am–7pm IST</div>
+                </div>
+              </a>
+
+              <a
+                href={EMAIL_HREF}
                 className="group glow-card flex items-center gap-4 rounded-[16px] border border-border bg-surface p-5"
               >
                 <div
@@ -1401,7 +1420,7 @@ function Contact() {
                 <div className="min-w-0">
                   <div className="text-[11px] uppercase tracking-wider text-muted">Email</div>
                   <div className="mt-0.5 truncate font-display text-[16px] font-semibold text-text">
-                    hello@hkmedia.in
+                    {EMAIL}
                   </div>
                   <div className="text-[13px] text-muted">We reply within a few hours</div>
                 </div>
