@@ -16,6 +16,8 @@ import {
 } from "lucide-react";
 import anuskaaThumb from "../assets/anuskaa-dentocare.jpg.asset.json";
 import amrawatiThumb from "../assets/amrawati-tutorials.jpg.asset.json";
+import aiAd1Video from "../assets/ai-ad-1.mp4.asset.json";
+import aiAd2Video from "../assets/ai-ad-2.mp4.asset.json";
 
 const WHATSAPP_URL = "https://wa.me/919608604657";
 const PHONE_TEL = "tel:+919608604657";
