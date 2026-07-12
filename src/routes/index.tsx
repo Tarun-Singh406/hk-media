@@ -1324,9 +1324,17 @@ const CONTACT_PROMISES = [
 ];
 
 function Contact() {
-  const [state, setState] = useState({ name: "", email: "", phone: "", message: "" });
+  const [state, setState] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    business: "",
+    message: "",
+    website: "", // honeypot
+  });
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
   const validate = () => {
     const e: Record<string, string> = {};
@@ -1339,11 +1347,27 @@ function Contact() {
     return Object.keys(e).length === 0;
   };
 
-  const submit = (ev: React.FormEvent) => {
+  const submit = async (ev: React.FormEvent) => {
     ev.preventDefault();
     if (!validate()) return;
     setStatus("loading");
-    setTimeout(() => setStatus("success"), 1200);
+    setErrorMsg("");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(state),
+      });
+      const data = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
+      if (!res.ok || !data.ok) {
+        throw new Error(data.error || "We couldn't send your message. Please try again.");
+      }
+      setStatus("success");
+      setState({ name: "", email: "", phone: "", business: "", message: "", website: "" });
+    } catch (err) {
+      setStatus("error");
+      setErrorMsg(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    }
   };
 
   const field =
@@ -1393,14 +1417,25 @@ function Contact() {
                     <Check size={24} strokeWidth={2.5} />
                   </div>
                   <h3 className="mt-5 font-display text-xl font-bold text-text">
-                    Thanks! We'll be in touch within 24 hours.
+                    Thank you! Your message has been sent successfully.
                   </h3>
                   <p className="mt-2 text-muted">
-                    Meanwhile, feel free to ping us on WhatsApp for anything urgent.
+                    We'll get back to you as soon as possible.
                   </p>
                 </div>
               ) : (
                 <form onSubmit={submit} className="space-y-4" noValidate>
+                  {/* Honeypot */}
+                  <input
+                    type="text"
+                    name="website"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={state.website}
+                    onChange={(e) => setState({ ...state, website: e.target.value })}
+                    className="absolute left-[-9999px] h-0 w-0 opacity-0"
+                    aria-hidden="true"
+                  />
                   <div>
                     <label className="mb-1.5 block text-sm font-medium text-text">Name</label>
                     <input
@@ -1436,6 +1471,17 @@ function Contact() {
                     </div>
                   </div>
                   <div>
+                    <label className="mb-1.5 block text-sm font-medium text-text">
+                      Business Name <span className="text-muted">(optional)</span>
+                    </label>
+                    <input
+                      className={field}
+                      value={state.business}
+                      onChange={(e) => setState({ ...state, business: e.target.value })}
+                      placeholder="Your clinic, institute, or brand"
+                    />
+                  </div>
+                  <div>
                     <label className="mb-1.5 block text-sm font-medium text-text">Message</label>
                     <textarea
                       rows={5}
@@ -1446,6 +1492,11 @@ function Contact() {
                     />
                     {errors.message && <p className="mt-1.5 text-sm text-error">{errors.message}</p>}
                   </div>
+                  {status === "error" && errorMsg && (
+                    <p className="rounded-lg border border-error/30 bg-error/10 px-3 py-2 text-sm text-error">
+                      {errorMsg}
+                    </p>
+                  )}
                   <button
                     type="submit"
                     disabled={status === "loading"}
@@ -1468,6 +1519,7 @@ function Contact() {
               )}
             </div>
           </Reveal>
+
 
           <Reveal delay={0.1}>
             <div className="flex h-full flex-col gap-4">
